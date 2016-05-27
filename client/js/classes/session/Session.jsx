@@ -4,10 +4,10 @@ Session = React.createClass({
   getMeteorData() {
     let subscription = Meteor.subscribe("sessions");
 
-      return {
-        isLoading: !subscription.ready(),
-        session: Sessions.find({ _id : this.props.id} , { sort: { createdAt: -1 }, limit : 1 }).fetch()[0],
-      };
+    return {
+      isLoading: !subscription.ready(),
+      session: Sessions.find({ _id : this.props.id} , { sort: { createdAt: -1 }, limit : 1 }).fetch()[0],
+    };
   },
   render() {
       if ( this.data.isLoading ) {

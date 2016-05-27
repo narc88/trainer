@@ -31,16 +31,15 @@ ExerciseForm = React.createClass({
 	  		break;
 		}
 		return isValid;
-  	},
-	handleChange(field, e) {
-		var nextState = {}
-		nextState[field] = e.target.checked
-		this.setState(nextState)
-	},
+  	} ,
   	handleSubmit() {
 		if (this.refs.profileForm.isValid()) {
 	  		alert(JSON.stringify({submitted: this.refs.profileForm.getFormData()}))
 		}
+		Cloudinary.upload(files,{}, function(err, img) {
+	   		//File is an array.
+	   		
+	  	});
   	},
   	getFormData() {
 		var data = {
@@ -84,12 +83,12 @@ ExerciseForm = React.createClass({
   	},
   	renderTagInput(id, label) {
 		return this.renderField(id, label,
-							  		<input type="file" name={id} id={id} accept="image/*" />
+							  		<input type="text" name={id} id={id} ref={id} accept="image/*" />
 								);
   	},
  	renderFileInput(id, label) {
 		return this.renderField(id, label,
-	  								<input type="file" name={id} id={id} accept="image/*" />
+	  								<input type="file" name={id} id={id} ref={id} accept="image/*" />
 								);
   	},
 	renderSelect(id, label, values) {
@@ -118,12 +117,11 @@ ExerciseForm = React.createClass({
 	},
 	renderRadioInlines(id, label, kwargs) {
 		var radios = kwargs.values.map(function(value) {
-		var defaultChecked = (value == kwargs.defaultCheckedValue)
-		return 
-			<label className="radio-inline">
-			  <input type="radio" ref={id + value} name={id} value={value} defaultChecked={defaultChecked}/>
-			  <span>{value}</span>
-			</label>
+			var defaultChecked = (value == kwargs.defaultCheckedValue)
+			return 	<label className="radio-inline">
+					  <input type="radio" ref={id + value} name={id} value={value} defaultChecked={defaultChecked}/>
+					  <span>{value}</span>
+					</label>
 		})
 		return this.renderField(id, label, radios);
   	},
