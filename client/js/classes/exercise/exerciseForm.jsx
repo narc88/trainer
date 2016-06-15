@@ -6,13 +6,49 @@ var OBJECTIVES = [
 	'Rehabilitación'
 ]
 
+var CATEGORIES = [
+	'Zona Media',
+	'Biceps',
+	'Tren Inferior',
+	'Coordinativo',
+	'Activador'
+]
+
 var DAYS = [1,2,3,4,5];
+
+
+
 
 
 ExerciseForm = React.createClass({
 	getInitialState() {
 		return {errors: {}}
   	},
+  	componentDidMount() {
+  		var categories = new Bloodhound({
+		    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+		    queryTokenizer: Bloodhound.tokenizers.whitespace,
+		    local: $.map(CATEGORIES, function (city) {
+		        return {
+		            name: city
+		        };
+		    })
+		});
+		categories.initialize();
+  		$('#tags').tagsinput({
+		    typeaheadjs: [{
+		        minLength: 3,
+		        highlight: true,
+		    },{
+		        minlength: 3,
+		        name: 'categories',
+		        displayKey: 'name',
+		        valueKey: 'name',
+		        source: categories.ttAdapter()
+		    }],
+		    freeInput: true
+		});
+	},
   	isValid() {
 		var fields = ['name', 'category', 'tags', 'description']
 		var errors = {}
@@ -33,25 +69,15 @@ ExerciseForm = React.createClass({
 		return isValid;
   	} ,
   	handleSubmit() {
-		if (this.refs.profileForm.isValid()) {
-	  		alert(JSON.stringify({submitted: this.refs.profileForm.getFormData()}))
-		}
-		Cloudinary.upload(files,{}, function(err, img) {
-	   		//File is an array.
-	   		
-	  	});
+	  	alert(JSON.stringify({submitted: this.getFormData()}))
+
   	},
   	getFormData() {
 		var data = {
 				//Categoría, duracion, series... Se llenan cuando armas la rutina.
 			  	name: this.refs.name.value,
-			  	category: this.refs.category.value,
-			  	description: this.refs.description.value,
-			  	series: this.refs.series.value,
 			  	tags: this.refs.tags.value,
-			  	duration: this.refs.duration.value,
-				logo: this.refs.logo.value,
-				animation: this.refs.animation.value,
+			  	description: this.refs.description.value,
 				tips: this.refs.tips.value,
 				explanation: this.refs.explanation.value
 			};
@@ -59,15 +85,14 @@ ExerciseForm = React.createClass({
   	},
   	render() {
 		return <div className="form-horizontal">
-				{this.renderTextInput('name', 'Nombre')}
-				{this.renderTextarea('description', 'Descripción')}
-				{this.renderTextarea('explanation', 'Explicación')}
-				{this.renderTextInput('series', 'Series')}
-				{this.renderTextInput('tags', 'Categorías')}
-				{this.renderTextInput('duration', 'Duración')}
-				{this.renderFileInput('logo', 'Logo')}
-				{this.renderFileInput('animation', 'Animación')}
-				{this.renderTextarea('tips', 'Tips para realizar el ejercicio')}
+					<form onSubmit={this.handleSubmit} ref="exerciseForm">
+						{this.renderTextInput('name', 'Nombre')}
+						{this.renderTextarea('description', 'Descripción')}
+						{this.renderTextarea('explanation', 'Explicación')}
+						{this.renderTagInput('tags', 'Categorías')}
+						{this.renderTextarea('tips', 'Tips para realizar el ejercicio')}
+						<button type="submit">Guardar</button>
+					</form>
 			</div>;
   	}, 
   	renderTextInput(id, label) {
@@ -83,7 +108,7 @@ ExerciseForm = React.createClass({
   	},
   	renderTagInput(id, label) {
 		return this.renderField(id, label,
-							  		<input type="text" name={id} id={id} ref={id} accept="image/*" />
+							  		<input type="text" placeholder="Categorias del ejercicio" name={id} id={id} ref={id}  data-role="tagsinput" />
 								);
   	},
  	renderFileInput(id, label) {

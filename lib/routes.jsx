@@ -18,8 +18,22 @@ FlowRouter.route('/', {
 
 });
 
+FlowRouter.route('/sessions', {
+  action: function() {
+    const containerElement = document.getElementById("render-target");
+    React.render(<SessionList/>, containerElement);
+  }
+});
+
+
+FlowRouter.route('/sessions/:id', {
+  action: function(params) {
+    const containerElement = document.getElementById("render-target");
+    React.render(<Session id={params.id}/>, containerElement);
+  }
+});
+
 FlowRouter.route('/sessions/actual', {
-  
   action: function() {
     const containerElement = document.getElementById("render-target");
     React.render(<Session/>, containerElement);
@@ -56,7 +70,6 @@ FlowRouter.route('/calendar', {
 
 
 FlowRouter.route('/sessions/add', {
-  
   action: function() {
     Meteor.call('addRoutine', 'abracadabra' ,function (error, result) {
       if (error) {
@@ -68,11 +81,10 @@ FlowRouter.route('/sessions/add', {
   }
 });
 
-FlowRouter.route('/playSession', {
-  
-  action: function() {
+FlowRouter.route('/playSession/:id', {
+  action: function(params) {
     const containerElement = document.getElementById("render-target");
-    React.render(<PlaySession/>, containerElement);
+    React.render(<PlaySession id={params.id}/>, containerElement);
   }
 });
 
@@ -102,7 +114,19 @@ FlowRouter.route('/exercises/add', {
   }
 });
 
+FlowRouter.route('/exercises', {
+  action: function() {
+    const containerElement = document.getElementById("render-target");
+    React.render(<ExerciseList/>, containerElement);
+  }
+});
 
+FlowRouter.route('/images/add', {
+  action: function() {
+    const containerElement = document.getElementById("render-target");
+    React.render(<ImageForm/>, containerElement);
+  }
+});
 /*
 FlowRouter.route('/routine/full_view/:routineId', {
   

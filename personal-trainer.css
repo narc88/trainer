@@ -124,3 +124,8 @@ header .hide-completed {
     padding-bottom: 5px;
   }
 }
+
+.thumbnail-image{
+  max-height:150px;
+  height:150px;
+}

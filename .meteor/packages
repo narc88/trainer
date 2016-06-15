@@ -31,4 +31,6 @@ erasaur:meteor-lodash
 cfs:standard-packages
 cfs:filesystem
 mikewhy:taggingjs
-lepozepo:cloudinary
+ajduke:bootstrap-tagsinput
+sergeyt:typeahead
+juniobranco:cloudinary-jquery-upload

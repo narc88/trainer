@@ -3,31 +3,44 @@ PlaySession = React.createClass({
   mixins: [ReactMeteorData],
   getMeteorData() {
     let subscription = Meteor.subscribe("sessions");
-    let session = Sessions.find( {} , { sort: { createdAt: -1 }, limit : 1 }).fetch()[0] || {};
-    let exercise = this.getOnGoing(session.exercises || []);
-    let serie = this.getOnGoing(exercise.series || []);
+    let session = Sessions.find( { _id : this.props.id} , { sort: { createdAt: -1 }, limit : 1 }).fetch()[0] || {};
+    let temp_exercise = this.getOnGoing(session.exercises || []);
+    let exercise = temp_exercise.object;
+    let temp_serie = this.getOnGoing(exercise.series || []);
+    let serie = temp_serie.object;
+    console.log("loaded")
+    console.log(session._id);
+    if(exercise.circuit && !exercise.started){
+      this.loadCircuitStatus();
+    }
     return {
       isLoading: !subscription.ready(),
       session: session,
+      exercise_index: temp_exercise.index,
       exercise: exercise,
-      serie: serie,
+      serie_index: temp_serie.index,
+      serie: serie
     };
   },
-  componentDidMount() {
+  loadCircuitStatus() {
+    var a = this.state.exercise.started_datetime
   },
   getOnGoing(list){
     var element = {};
     for (var i = 0; i < list.length; i++) {
-        if(list[i].state === 'going on'){
+        if(list[i].status === 'going on'){
             element.object = list[i]; 
             element.index = i;
+            return element;
         }
     }
-    if(!element.index && list[0]){
+    if(list.length === 0){
+      element = {'object':{}, 'index':0};
+    }else if(!element){
       element.object = list[0];
       element.index = 0;
     }
-    return element || {};
+    return element;
   },
   getInitialState() {
     return {
@@ -42,10 +55,20 @@ PlaySession = React.createClass({
         timeSpan : 15,
         restSpan: 15,
         exercise: {},
-        serie: {}
+        serie: {},
+        session:{}
     };
   },
-
+  moveToNextSerie(){
+    console.log("moveToNextSerie")
+    console.log(this.data.session._id);
+    Meteor.call('moveToNextSerie', this.data.session._id, this.data.exercise_index, this.data.serie_index, function (error, result) {});
+  },
+  startCircuit(){
+    console.log("startCircuit")
+    console.log(this.data.session._id);
+    Meteor.call('startCircuit', this.data.session._id, this.data.exercise_index, function (error, result) {});
+  },
   updateCircuit(){
     if(!this.state.circuit_started){
       var lapTime = 0,
@@ -226,7 +249,7 @@ PlaySession = React.createClass({
                           <div>{this.data.session.purpose}</div>
                           <div>{this.data.session.objective}</div>
                       </header>
-                      <PlaySessionExercise exercise={this.data.exercise}></PlaySessionExercise>
+                      <PlaySessionExercise exercise={this.data.exercise} serie={this.data.serie} startCircuit={this.startCircuit}  startStopSerie={this.startStopSerie}></PlaySessionExercise>
                   </div>;
     }
     return template;
