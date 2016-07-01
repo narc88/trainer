@@ -14,9 +14,11 @@ ExerciseList = React.createClass({
 	render() {
 	    return <div>
 	    			<h1>Ejercicios</h1>
-	                {this.data.exercises.map(function(object, i){
-			            return <ExerciseItem exercise={object} />
-			        })}
+	    			<ul class="list-group">
+		                {this.data.exercises.map(function(object, i){
+				            return <ExerciseListItem exercise={object} key={object._id}/>
+				        })}
+			        </ul>
 	            </div>;
 	}
 });

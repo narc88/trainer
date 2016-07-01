@@ -4,10 +4,31 @@ ImageForm = React.createClass({
 		return {errors: {}}
   	},
   	componentDidMount(){
-  		$.cloudinary.config({ cloud_name: 'db6uq4jy9', api_key: '346559593378446'})
-  	},
-  	handleSubmit() {
+  		let imageUploaded = this.saveImage;
+  		$.cloudinary.config({ cloud_name: 'db6uq4jy9', api_key: '346559593378446'});
+  		$('.upload_form').append($.cloudinary.unsigned_upload_tag("yjiqelzg", 
+  			{ cloud_name: 'db6uq4jy9' }));
+  		$('.cloudinary_fileupload').unsigned_cloudinary_upload("yjiqelzg", 
+		  { cloud_name: 'db6uq4jy9', tags: 'browser_uploads' }, 
+		  { multiple: true }
+		).bind('cloudinarydone', function(e, data) {
 
+			$('.thumbnails').append($.cloudinary.image(data.result.public_id, 
+			    { format: 'jpg', width: 150, height: 100, 
+			      crop: 'thumb', gravity: 'face', effect: 'saturation:50' } ))
+		
+			imageUploaded(data.result);
+		}).bind('cloudinaryprogress', function(e, data) { 
+
+		  $('.progress-bar').css('width', 
+		    Math.round((data.loaded * 100.0) / data.total) + '%'); 
+
+		});
+  	},
+  	saveImage(image) {
+  		Meteor.call('storeImage', image, function (error, result) {
+  			//Redireccionar al recurso original.
+  		});
   	},
   	getFormData() {
 		var data = {
@@ -17,29 +38,15 @@ ImageForm = React.createClass({
   	},
   	render() {
 		return 	<div className="form-horizontal">
-					{this.renderFileInput('image', 'Image')}
-					<button onClick={this.handleSubmit}>Guardar</button>
-				</div>;
-  	},
- 	renderFileInput(id, label) {
-		return this.renderField(id, label,
-	  								<input type="file" name={id} id={id} ref={id} accept="image/*" />
-								);
-  	},
-  	renderField(id, label, field) {
-		return <div>
-					<label htmlFor={id} className="col-sm-4 control-label">{label}</label>
+					<label htmlFor="image" className="col-sm-4 control-label">Image</label>
 					<div className="col-sm-6">
-						<input name="file" type="file" 
-						   className="cloudinary-fileupload" data-cloudinary-field="image_id" 
-						   data-form-data="{ 
-							  &quot;timestamp&quot;:  1345719094, 
-							  &quot;callback&quot;: &quot;https://www.example.com/cloudinary_cors.html&quot;,
-							  &quot;signature&quot;: &quot;7ac8c757e940d95f95495aa0f1cba89ef1a8aa7a&quot;, 
-							  &quot;api_key&quot;: &quot;346559593378446&quot; 
-							}" >
-						</input>
+						<form className="upload_form"></form>
 					</div>
+					<div className="progress">
+                        <div className="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" >
+                        </div>
+                    </div>
+                    <div className="thumbnails"></div>
 				</div>;
-	}
+  	}
 })

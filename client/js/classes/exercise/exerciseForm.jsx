@@ -16,10 +16,6 @@ var CATEGORIES = [
 
 var DAYS = [1,2,3,4,5];
 
-
-
-
-
 ExerciseForm = React.createClass({
 	getInitialState() {
 		return {errors: {}}
@@ -68,12 +64,14 @@ ExerciseForm = React.createClass({
 		}
 		return isValid;
   	} ,
-  	handleSubmit() {
+  	handleSubmit(event) {
 	  	alert(JSON.stringify({submitted: this.getFormData()}))
-
+	  	event.preventDefault();
+	  	let exercise = this.getFormData()
+	  	Meteor.call('addExercise', exercise, function (error, result) {});
   	},
   	getFormData() {
-		var data = {
+		return {
 				//Categoría, duracion, series... Se llenan cuando armas la rutina.
 			  	name: this.refs.name.value,
 			  	tags: this.refs.tags.value,
@@ -81,7 +79,6 @@ ExerciseForm = React.createClass({
 				tips: this.refs.tips.value,
 				explanation: this.refs.explanation.value
 			};
-		return data;
   	},
   	render() {
 		return <div className="form-horizontal">

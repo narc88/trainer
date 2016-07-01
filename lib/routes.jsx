@@ -106,6 +106,15 @@ FlowRouter.route('/sessions/:id', {
 });
 
 
+FlowRouter.route('/exercises/:id', {
+  
+  action: function(params) {
+    const containerElement = document.getElementById("render-target");
+    React.render(<Exercise id={params.id}/>, containerElement);
+  }
+});
+
+
 FlowRouter.route('/exercises/add', {
   
   action: function(params) {
@@ -121,12 +130,21 @@ FlowRouter.route('/exercises', {
   }
 });
 
-FlowRouter.route('/images/add', {
-  action: function() {
+FlowRouter.route('/images/add/:elementType/:elementId', {
+  action: function(params) {
     const containerElement = document.getElementById("render-target");
-    React.render(<ImageForm/>, containerElement);
+    React.render(<ImageForm elementType={params.elementType} elementId={params.elementId}/>, containerElement);
   }
 });
+
+
+FlowRouter.route('/routines/add', {
+  action: function(params) {
+    const containerElement = document.getElementById("render-target");
+    React.render(<CreateRoutine/>, containerElement);
+  }
+});
+
 /*
 FlowRouter.route('/routine/full_view/:routineId', {
   

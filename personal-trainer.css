@@ -129,3 +129,96 @@ header .hide-completed {
   max-height:150px;
   height:150px;
 }
+
+.exercise-list-img{
+  max-width:80px; 
+  max-height:80px;
+}
+
+.clickable{
+  cursor:pointer;
+}
+
+/*Sortable*/
+li.placeholder { background: rgb(255,240,120);}
+li.placeholder:before {
+  content: "Drop here"; color: rgb(225,210,90);
+}
+ul {
+  list-style: none;
+  margin:0;
+  padding:0
+}
+li {
+  padding: 5px;
+  background:#eee
+}
+
+/*Resizable*/
+
+.splitter_panel {
+    position: relative;
+}
+
+.splitter_panel .vsplitter {
+    background-color: grey;
+    cursor: col-resize;
+    z-index: 900;
+    width: 7px;
+}
+
+.splitter_panel .hsplitter {
+    background-color: #5F5F5F;
+    cursor: row-resize;
+    z-index: 800;
+    height: 7px;
+}
+
+.splitter_panel .vsplitter.splitter-invisible,
+.splitter_panel .hsplitter.splitter-invisible {
+    background: none;
+}
+
+.splitter_panel .vsplitter, .splitter_panel .left_panel, .splitter_panel .right_panel,
+.splitter_panel .hsplitter, .splitter_panel .top_panel, .splitter_panel .bottom_panel {
+    position: absolute;
+    overflow: auto;
+}
+
+.splitter_panel .vsplitter, .splitter_panel .left_panel, .splitter_panel .right_panel {
+    height: 100%;
+}
+
+.splitter_panel .hsplitter, .splitter_panel .top_panel, .splitter_panel .bottom_panel {
+    width: 100%;
+}
+
+.splitter_panel .top_panel, .splitter_panel .left_panel, .splitter_panel .vsplitter {
+    top: 0;
+}
+
+.splitter_panel .top_panel, .splitter_panel .bottom_panel, .splitter_panel .left_panel, .splitter_panel .hsplitter {
+    left: 0;
+}
+
+.splitter_panel .bottom_panel {
+    bottom: 0;
+}
+
+.splitter_panel .right_panel {
+    right: 0;
+}
+
+.splitterMask {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+}
+/*Scrollable ex list*/
+
+.exercise-list-scrollable {
+  overflow-y:scroll;
+}

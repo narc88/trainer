@@ -5,7 +5,7 @@ Meteor.methods({
         if (! Meteor.userId()) {
           //throw new Meteor.Error("not-authorized");
         }
-
+        console.log(exercise)
         Exercises.insert(exercise , function (error, result) {
             if (error) {
                 throw error;
