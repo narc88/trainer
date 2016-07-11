@@ -203,8 +203,7 @@ ProfileFormContainer = React.createClass({
                 <span className="glyphicon-calendar glyphicon"></span>
               </span>
             </div>);
-}
-, renderRadioInlines(id, label, kwargs) {
+}, renderRadioInlines(id, label, kwargs) {
     var radios = kwargs.values.map(function(value) {
       var defaultChecked = (value == kwargs.defaultCheckedValue)
       return 

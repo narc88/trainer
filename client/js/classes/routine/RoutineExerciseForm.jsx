@@ -1,19 +1,3 @@
-var OBJECTIVES = [
-	{'value':'rehab', 'label':'Rehabilitación'},
-	{'value':'sport_train', 'label':'Entrenamiento deportivo'},
-	{'value':'flexibility', 'label':'Flexibilidad'},
-	{'value':'lower_weight', 'label':'Bajar de peso'},
-	{'value':'power', 'label':'Potencia'}
-]
-
-var CATEGORIES = [
-	'Zona Media',
-	'Biceps',
-	'Tren Inferior',
-	'Coordinativo',
-	'Activador'
-]
-
 var EXERCISE_TYPES = [
 	{'value':'repetitions', 'label':'Repeticiones'},
 	{'value':'staggered', 'label':'Repeticiones Escalonadas'},
@@ -29,29 +13,7 @@ ExerciseForm = React.createClass({
 				}
   	},
   	componentDidMount() {
-  		var categories = new Bloodhound({
-		    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
-		    queryTokenizer: Bloodhound.tokenizers.whitespace,
-		    local: $.map(CATEGORIES, function (city) {
-		        return {
-		            name: city
-		        };
-		    })
-		});
-		categories.initialize();
-  		$('#tags').tagsinput({
-		    typeaheadjs: [{
-		        minLength: 3,
-		        highlight: true,
-		    },{
-		        minlength: 3,
-		        name: 'categories',
-		        displayKey: 'name',
-		        valueKey: 'name',
-		        source: categories.ttAdapter()
-		    }],
-		    freeInput: true
-		});
+  		
 	},
   	isValid() {
 		var fields = ['name', 'tags', 'description', 'type']

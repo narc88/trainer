@@ -1,6 +1,17 @@
 
 SelectableExerciseListItem = React.createClass({
-	
+	componentDidMount: function(){
+		var self = this;
+		var timeoutId = 0;
+		$('.selectable-exercise-' + this.props.exercise._id).mousedown(function() {
+		    timeoutId = setTimeout(self.onHold, 1000);
+		}).bind('mouseup mouseleave', function() {
+		    clearTimeout(timeoutId);
+		});
+	},
+	onHold: function(){
+
+	},
 	getInitialState: function() {
     	return {selected: false};
   	},
@@ -14,7 +25,7 @@ SelectableExerciseListItem = React.createClass({
     	}
   	},
 	render() {
-		var classSerieStatus = classNames({ 'disabled': this.state.selected }, 'list-group-item' );
+		var classSerieStatus = classNames({ 'disabled': this.state.selected }, 'selectable-exercise-' + this.props.exercise._id ,'list-group-item', 'selectable-exercise' );
 	    return	<li className={classSerieStatus} onClick={this.toggleSelection}>
 	    			<div className="media">
 						<div className="media-left">

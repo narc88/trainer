@@ -106,14 +106,6 @@ FlowRouter.route('/sessions/:id', {
 });
 
 
-FlowRouter.route('/exercises/:id', {
-  
-  action: function(params) {
-    const containerElement = document.getElementById("render-target");
-    React.render(<Exercise id={params.id}/>, containerElement);
-  }
-});
-
 
 FlowRouter.route('/exercises/add', {
   
@@ -122,6 +114,15 @@ FlowRouter.route('/exercises/add', {
     React.render(<ExerciseForm/>, containerElement);
   }
 });
+
+FlowRouter.route('/exercises/:id', {
+  
+  action: function(params) {
+    const containerElement = document.getElementById("render-target");
+    React.render(<Exercise id={params.id}/>, containerElement);
+  }
+});
+
 
 FlowRouter.route('/exercises', {
   action: function() {

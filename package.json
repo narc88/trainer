@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "react-split-panel": "^2.0.1",
     "react-splitter": "^0.2.0"
   }
 }

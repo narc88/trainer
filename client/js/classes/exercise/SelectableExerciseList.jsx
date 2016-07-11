@@ -32,8 +32,8 @@ SelectableExerciseList = React.createClass({
 				        })}
 				        <li>
 					    	<div className="btn-group" role="group" aria-label="...">
-							  	<button type="button" class="btn btn-default" onClick={this.cancelSelected}>Cancelar</button>
-							  	<button type="button" class="btn btn-default" onClick={this.submitSelected}>Agregar</button>
+							  	<button type="button" className="btn btn-default" onClick={this.cancelSelected}>Cancelar</button>
+							  	<button type="button" className="btn btn-default" onClick={this.submitSelected}>Agregar</button>
 							</div>
 					    </li>
 			        </ul>
