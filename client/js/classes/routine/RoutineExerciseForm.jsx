@@ -5,17 +5,18 @@ var EXERCISE_TYPES = [
 	{'value':'circuit', 'label':'Circuito'}
 ]
 
-ExerciseForm = React.createClass({
+RoutineExerciseForm = React.createClass({
 	getInitialState() {
 		return {
 				errors: {},
-				data: {}
+				data: this.props.exercise
 				}
   	},
   	componentDidMount() {
   		
 	},
   	isValid() {
+  		/*Validation needs to be changed
 		var fields = ['name', 'tags', 'description', 'type']
 		var errors = {}
 		fields.forEach(function(field) {
@@ -31,13 +32,15 @@ ExerciseForm = React.createClass({
 	 		isValid = false;
 	  		break;
 		}
+		*/
+		var isValid = true;
 		return isValid;
   	} ,
   	handleSubmit(event) {
 	  	event.preventDefault();
-	  	let exercise = this.getFormData();
+	  	let exercise = lodash.extend(this.props.exercise , this.getFormData());
 	  	if(this.isValid()){
-	  		Meteor.call('addExercise', exercise, function (error, result) {});
+	  		this.props.updateRoutineExercise(exercise)
 	  	}
   	},
   	changeType(){
@@ -52,17 +55,11 @@ ExerciseForm = React.createClass({
   		var cant_exercises =this.refs.cant_exercises? this.refs.cant_exercises.value : '';
   		var series =this.refs.series? this.refs.series.value : '';
 		return {
-				//Categoría, duracion, series... Se llenan cuando armas la rutina.
-			  	name: this.refs.name.value,
-			  	tags: this.refs.tags.value,
-			  	description: this.refs.description.value,
-				tips: this.refs.tips.value,
 				series: series,
-				type: this.refs.type.value,
-				explanation: this.refs.explanation.value,
 				repetitions: repetitions,
 				duration: duration,
-				cant_exercises: cant_exercises
+				cant_exercises: cant_exercises,
+				rest:this.refs.rest.value 
 			};
   	},
   	render() {
@@ -88,14 +85,10 @@ ExerciseForm = React.createClass({
 	  	}
 		return <div className="form-horizontal">
 					<form onSubmit={this.handleSubmit} ref="exerciseForm">
-						{this.renderTextInput('name', 'Nombre')}
 						{this.renderSelect('type', 'Tipo', EXERCISE_TYPES)}
 						{series_container}
 						{repetitions_container}
-						{this.renderTextarea('description', 'Descripción')}
-						{this.renderTextarea('explanation', 'Explicación')}
-						{this.renderTagInput('tags', 'Categorías')}
-						{this.renderTextarea('tips', 'Tips para realizar el ejercicio')}
+						{this.renderNumberInput('rest', 'Descanso (Segundos)')}
 						<button type="submit">Guardar</button>
 					</form>
 			</div>;
@@ -103,28 +96,13 @@ ExerciseForm = React.createClass({
   	renderTextInput(id, label) {
 		return this.renderField(id,
 								label,
-								<input type="text" className="form-control" id={id} ref={id}/>
+								<input type="text" className="form-control" defaultValue={this.props.exercise[id]} id={id} ref={id}/>
 								);
   	},
   	renderNumberInput(id, label) {
 		return this.renderField(id,
 								label,
-								<input type="number" pattern="[0-9]*" className="form-control" id={id} ref={id}/>
-								);
-  	},
-   	renderTextarea(id, label) {
-		return this.renderField(id, label,
-								  <textarea className="form-control" id={id} ref={id}/>
-								);
-  	},
-  	renderTagInput(id, label) {
-		return this.renderField(id, label,
-							  		<input type="text" placeholder="Categorias del ejercicio" name={id} id={id} ref={id}  data-role="tagsinput" />
-								);
-  	},
- 	renderFileInput(id, label) {
-		return this.renderField(id, label,
-	  								<input type="file" name={id} id={id} ref={id} accept="image/*" />
+								<input type="number" pattern="[0-9]*" className="form-control" defaultValue={this.props.exercise[id]} id={id} ref={id}/>
 								);
   	},
 	renderSelect(id, label, values) {
@@ -138,32 +116,8 @@ ExerciseForm = React.createClass({
 				  </select>
 				);
 	},
-	renderDateTime(id, label){
-		var datetimeid = 'datetimepicker'+id;
-		setTimeout(function(){
-		  	$('#'+datetimeid).datetimepicker();
-		},500);
-	
-		return this.renderField(id, label, 
-								<div className="input-group date" id={datetimeid}>
-								  	<input type="text" id={id} className="form-control" />  
-								  	<span className="input-group-addon">
-										<span className="glyphicon-calendar glyphicon"></span>
-								 	</span>
-								</div>);
-	},
-	renderRadioInlines(id, label, kwargs) {
-		var radios = kwargs.values.map(function(value) {
-			var defaultChecked = (value == kwargs.defaultCheckedValue)
-			return 	<label className="radio-inline">
-					  <input type="radio" ref={id + value} name={id} value={value} defaultChecked={defaultChecked}/>
-					  <span>{value}</span>
-					</label>
-		})
-		return this.renderField(id, label, radios);
-  	},
   	renderField(id, label, field) {
-		return <div className={aaac('form-group', {'has-error': id in this.state.errors})}>
+		return <div className={classNames('form-group', 'form-group-sm','col-xs-6', 'col-sm-6', 'col-md-6' , {'has-error': id in this.state.errors})}>
 					<label htmlFor={id} className="col-sm-4 control-label">{label}</label>
 					<div className="col-sm-6">
 						{field}
@@ -178,20 +132,4 @@ ExerciseForm = React.createClass({
 function trim(string) {
   var TRIM_RE = /^\s+|\s+$/g
   return string.replace(TRIM_RE, '');
-}
-
-function aaac(staticClassName, conditionalClassNames) {
-  var classNames = []
-  if (typeof conditionalClassNames == 'undefined') {
-	conditionalClassNames = staticClassName
-  }
-  else {
-	classNames.push(staticClassName)
-  }
-  for (var className in conditionalClassNames) {
-	if (!!conditionalClassNames[className]) {
-	  classNames.push(className)
-	}
-  }
-  return classNames.join(' ')
 }

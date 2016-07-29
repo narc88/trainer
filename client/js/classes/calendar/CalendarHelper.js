@@ -21,25 +21,25 @@ Template.CalendarTemplate.helpers({
                 var events1 =[], events = [];
                 events1.push({
                     'id': 2151251,
-                    'title': '<UserCard/>',
-                    'startParam' : '2016-04-07T12:30:00.000Z',
-                    'endParam' : '2016-04-07T13:30:00.000Z',
+                    'title': 'Lisandro Riera',
+                    'startParam' : '2016-07-27T12:30:00.000Z',
+                    'endParam' : '2016-07-27T13:30:00.000Z',
                     'editable' : true,
                     'backgroundColor': 'blue'
                 },
                 {
                     'id': 2151651,
-                    'title': '<h3><b>Este es el titulo</b></h3>',
-                    'startParam' : '2016-04-07T11:30:00.000Z',
-                    'endParam' : '2016-04-07T12:30:00.000Z',
+                    'title': 'Nicolas Ronchi',
+                    'startParam' : '2016-07-27T11:30:00.000Z',
+                    'endParam' : '2016-07-27T12:30:00.000Z',
                     'editable' : true,
                     'backgroundColor': 'red'
                 },
                 {
                     'id': 2157251,
-                    'title': '<h3><b>Este es el titulo</b></h3>',
-                    'startParam' : '2016-04-07T12:30:00.000Z',
-                    'endParam' : '2016-04-07T13:30:00.000Z',
+                    'title': 'Analia Goyeneche',
+                    'startParam' : '2016-07-27T12:30:00.000Z',
+                    'endParam' : '2016-07-27T13:30:00.000Z',
                     'editable' : true,
                     'backgroundColor': 'green'
                 });
@@ -61,15 +61,21 @@ Template.CalendarTemplate.helpers({
             },
             dayClick:function(date, jsEvent, view){
                 alert(JSON.stringify(date));
+                
+            },
+            eventRender: function(event, element) {
+                $(element).qtip({
+                    content: event.description
+                });
             },
             eventAfterRender: function (event, element) {
-                
+            /*   
                 if(event){
                     element.find('.fc-title').attr('id', event.id).html('');
                     let html_element = document.getElementById(event.id);
-                    Blaze.render(Template.UserCardTemplate, html_element)
+                    Blaze.render(<UserCard/>, html_element)
                 }
-                
+              */  
                 
                 //element.find('.fc-title').html(element.find('.fc-title').text());
             },

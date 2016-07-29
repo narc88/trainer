@@ -70,11 +70,26 @@ CreateRoutine = React.createClass({
   	addNewExercise(){
   		this.setState({state: 'selecting_exercise'});
   	},
+  	updateExercise(exercise){
+  		let routine_exercises = this.state.routine_exercises;
+  		let index = lodash.findIndex(routine_exercises, function(o) { return o._id === exercise._id; });
+  		routine_exercises[index] = exercise;
+  		this.setState({routine_exercises: routine_exercises})
+  	},
+  	isRoutineValid(){
+  		return (this.state.routine_exercises.length > 3);
+  	},
+  	submitRoutine(){
+	  	if(this.isRoutineValid()){
+	  		Meteor.call('addRoutine', routine, function (error, result) {});
+	  	}
+  	},
 	render() {
 		var viewport_height = (document.documentElement.clientHeight/2)+'px';
 		var style = {height:viewport_height}
 		var dragEnd = this.dragEnd;
 		var dragStart = this.dragStart;
+		var updateExercise = this.updateExercise;
 		var select_list = '';
 		if(this.state.state === 'selecting_exercise'){
 			select_list = <SelectableExerciseList exercises={this.data.exercises} selectExercise={this.selectExercise}/>
@@ -84,7 +99,7 @@ CreateRoutine = React.createClass({
 		            <div className="exercise-list-scrollable" style={style}>
 		                <ul className="list-group" onDragOver={this.dragOver}>
 			                {this.state.routine_exercises.map(function(object, i){
-					            return <RoutineExercise key={i} i={i} dragEnd={dragEnd} dragStart={dragStart} exercise={object}/>
+					            return <RoutineExercise key={i} i={i} updateExercise={updateExercise} dragEnd={dragEnd} dragStart={dragStart} exercise={object}/>
 					        })}
 				        </ul> 
 		            </div>

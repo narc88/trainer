@@ -100,6 +100,7 @@ ExerciseForm = React.createClass({
 				explanation: this.refs.explanation.value,
 				repetitions: repetitions,
 				duration: duration,
+				rest:this.refs.rest.value,
 				cant_exercises: cant_exercises
 			};
   	},
@@ -130,6 +131,7 @@ ExerciseForm = React.createClass({
 						{this.renderSelect('type', 'Tipo', EXERCISE_TYPES)}
 						{series_container}
 						{repetitions_container}
+						{this.renderNumberInput('rest', 'Descanso (Segundos)')}
 						{this.renderTextarea('description', 'Descripción')}
 						{this.renderTextarea('explanation', 'Explicación')}
 						{this.renderTagInput('tags', 'Categorías')}

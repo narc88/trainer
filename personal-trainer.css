@@ -222,3 +222,8 @@ li {
 .exercise-list-scrollable {
   overflow-y:scroll;
 }
+
+/* Calendar */
+.fc-event .fc-time{
+  display : none;
+}

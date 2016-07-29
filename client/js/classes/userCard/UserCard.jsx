@@ -1,23 +1,20 @@
 
 UserCard = React.createClass({
-  componentDidMount() {
-    this.view = Blaze.render(Template.UserCardTemplate,
-      React.findDOMNode(this.refs.containerUserCard));
-  },
-  componentWillUnmount() {
-    Blaze.remove(this.view);
-  },
   render() {
     // Just render a placeholder container that will be filled in
-    return  <span ref="containerUserCard" />;
+    return  <div class="media">
+              <div class="media-left">
+                <a href="#">
+                  <img  class="media-object" 
+                        src="https://scontent-gru2-1.xx.fbcdn.net/v/t1.0-9/12631511_10153655547818598_6704735405212584153_n.jpg?oh=67dc20749bdd53190dcda16441c482a3&oe=57858162" 
+                        alt="Foto de perfil"
+                        width="50px"/>
+                </a>
+              </div>
+              <div class="media-body">
+                <h4 class="media-heading">{user.name}</h4>
+                {user.lastName}
+              </div>
+            </div>;
   }
-})
-
-Hello = React.createClass({
-    render() {
-        return <this.props.component.slug className='text'>
-            {this.props.component.value}
-        </this.props.component.slug>;
-    }
 });
-

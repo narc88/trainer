@@ -7,8 +7,8 @@ FlowRouter.route('/', {
   //}],
   
   action: function() {
-    const containerElement = document.getElementById("render-target");
-    React.render(<Routine/>, containerElement);
+    const containerElement = document.getElementById("render-app");
+    React.render(<App/>, containerElement);
     //React.render(<App />, document.getElementById("render-target"));
   }
   // calls when when we decide to move to another route
@@ -146,6 +146,32 @@ FlowRouter.route('/routines/add', {
   }
 });
 
+
+/*Usuarios*/
+FlowRouter.route('/login', {
+  action: function(params) {
+    const containerElement = document.getElementById("render-target");
+    React.render(<Login/>, containerElement);
+  }
+});
+
+FlowRouter.route('/register', {
+  action: function(params) {
+    const containerElement = document.getElementById("render-target");
+    React.render(<Register/>, containerElement);
+  }
+});
+
+FlowRouter.route('/logout', {
+  name: 'logout',
+  action: function() {
+    Meteor.logout(function(){
+      FlowRouter.go('/');
+      sAlert.info("You've been signed out.", {effect: 'stackslide', position: 'top-left', timeout: 2000,});
+    });
+  }
+});
+
 /*
 FlowRouter.route('/routine/full_view/:routineId', {
   
@@ -209,3 +235,4 @@ FlowRouter.notFound = {
     }
 };
 */
+

@@ -39,3 +39,6 @@ npm-container
 universe:react-bootstrap
 standard-minifier-css
 standard-minifier-js
+service-configuration
+juliancwirko:s-alert-stackslide
+maxkfranz:cytoscape-qtip
