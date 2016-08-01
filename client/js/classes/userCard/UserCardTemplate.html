@@ -1,16 +1,26 @@
 <template name="UserCardTemplate">
-  <div class="media">
-    <div class="media-left">
-      <a href="#">
-        <img  class="media-object" 
-              src="https://scontent-gru2-1.xx.fbcdn.net/v/t1.0-9/12631511_10153655547818598_6704735405212584153_n.jpg?oh=67dc20749bdd53190dcda16441c482a3&oe=57858162" 
+  <div class="thumbnail">
+    <img  class="media-object" 
+              src="http://thesocialmediamonthly.com/wp-content/uploads/2015/08/photo.png" 
               alt="Foto de perfil"
               width="50px"/>
-      </a>
-    </div>
-    <div class="media-body">
-      <h4 class="media-heading">Este es mi nombre</h4>
-      Descripcion Descripcion Descripcion Descripcion Descripcion
+    <div class="caption">
+      <h3>{{title}}</h3>
+      <p>Esto seria mas informacion</p>
+      <div class="btn-group" role="group" aria-label="...">
+        <button type="button" class="btn btn-default btn-sm">
+          <span class="glyphicon glyphicon-th-list"></span>
+        </button>
+        <button type="button" class="btn btn-default btn-sm">
+          <span class="glyphicon glyphicon-ok"></span>
+        </button>
+        <button type="button" class="btn btn-default btn-sm">
+          <span class="glyphicon glyphicon-remove"></span>
+        </button>
+        <button type="button" class="btn btn-default btn-sm">
+          <span class="glyphicon glyphicon-plus"></span>
+        </button>
+      </div>
     </div>
   </div>
 </template>

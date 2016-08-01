@@ -22,27 +22,108 @@ Template.CalendarTemplate.helpers({
                 events1.push({
                     'id': 2151251,
                     'title': 'Lisandro Riera',
-                    'startParam' : '2016-07-27T12:30:00.000Z',
-                    'endParam' : '2016-07-27T13:30:00.000Z',
+                    'start' : '2016-08-01T12:30:00.000Z',
+                    'end' : '2016-08-01T13:30:00.000Z',
                     'editable' : true,
                     'backgroundColor': 'blue'
                 },
                 {
                     'id': 2151651,
                     'title': 'Nicolas Ronchi',
-                    'startParam' : '2016-07-27T11:30:00.000Z',
-                    'endParam' : '2016-07-27T12:30:00.000Z',
+                    'start' : '2016-08-01T11:30:00.000Z',
+                    'end' : '2016-08-01T12:30:00.000Z',
                     'editable' : true,
                     'backgroundColor': 'red'
                 },
                 {
                     'id': 2157251,
-                    'title': 'Analia Goyeneche',
-                    'startParam' : '2016-07-27T12:30:00.000Z',
-                    'endParam' : '2016-07-27T13:30:00.000Z',
+                    'title': 'a',
+                    'start' : '2016-08-01T12:30:00.000Z',
+                    'end' : '2016-08-01T13:30:00.000Z',
+                    'editable' : true,
+                    'backgroundColor': 'green'
+                },
+                {
+                    'id': 2151251,
+                    'title': 'Lisandro Riera',
+                    'start' : '2016-08-01T12:30:00.000Z',
+                    'end' : '2016-08-01T13:30:00.000Z',
+                    'editable' : true,
+                    'backgroundColor': 'blue'
+                },
+                {
+                    'id': 2151651,
+                    'title': 'Nicolas Ronchi',
+                    'start' : '2016-08-01T11:30:00.000Z',
+                    'end' : '2016-08-01T12:30:00.000Z',
+                    'editable' : true,
+                    'backgroundColor': 'red'
+                },
+                {
+                    'id': 2157251,
+                    'title': 'AG',
+                    'start' : '2016-08-01T12:30:00.000Z',
+                    'end' : '2016-08-01T13:30:00.000Z',
                     'editable' : true,
                     'backgroundColor': 'green'
                 });
+
+                var events2 = [
+                    {
+                        title: 'All Day Event',
+                        start: '2016-06-01'
+                    },
+                    {
+                        title: 'Long Event',
+                        start: '2016-06-07',
+                        end: '2016-06-10'
+                    },
+                    {
+                        id: 999,
+                        title: 'Repeating Event',
+                        start: '2016-06-09T16:00:00'
+                    },
+                    {
+                        id: 999,
+                        title: 'Repeating Event',
+                        start: '2016-06-16T16:00:00'
+                    },
+                    {
+                        title: 'Conference',
+                        start: '2016-06-11',
+                        end: '2016-06-13'
+                    },
+                    {
+                        title: 'Meeting',
+                        start: '2016-06-12T10:30:00',
+                        end: '2016-06-12T12:30:00'
+                    },
+                    {
+                        title: 'Lunch',
+                        start: '2016-06-12T12:00:00'
+                    },
+                    {
+                        title: 'Meeting',
+                        start: '2016-06-12T14:30:00'
+                    },
+                    {
+                        title: 'Happy Hour',
+                        start: '2016-06-12T17:30:00'
+                    },
+                    {
+                        title: 'Dinner',
+                        start: '2016-06-12T20:00:00'
+                    },
+                    {
+                        title: 'Birthday Party',
+                        start: '2016-06-13T07:00:00'
+                    },
+                    {
+                        title: 'Click for Google',
+                        url: 'http://google.com/',
+                        start: '2016-06-28'
+                    }
+                ];
                 // Get only events from one document of the Calendars collection
                 // events is a field of the Calendars collection document
                 
@@ -57,27 +138,22 @@ Template.CalendarTemplate.helpers({
                     events.push(eventDetails);
                 });
                 callback(events);
+                console.log(events.length)
+            },
+            eventClick: function(event, element) {
                 
+                $('.tooltip').hide();
+                $(this).tooltip({trigger: 'manual', title: Blaze.toHTMLWithData(Template.UserCardTemplate, event) , html: true, container: "body"});
+                $(this).tooltip().tooltip('show');
+            },
+            eventAfterRender: function (event, element) {   
+                if(event){
+                    Blaze.toHTMLWithData(Template.UserCardTemplate, event);
+                }
             },
             dayClick:function(date, jsEvent, view){
                 alert(JSON.stringify(date));
                 
-            },
-            eventRender: function(event, element) {
-                $(element).qtip({
-                    content: event.description
-                });
-            },
-            eventAfterRender: function (event, element) {
-            /*   
-                if(event){
-                    element.find('.fc-title').attr('id', event.id).html('');
-                    let html_element = document.getElementById(event.id);
-                    Blaze.render(<UserCard/>, html_element)
-                }
-              */  
-                
-                //element.find('.fc-title').html(element.find('.fc-title').text());
             },
             // Optional: id of the calendar
             id: "calendar1",
@@ -86,7 +162,7 @@ Template.CalendarTemplate.helpers({
             // Optional: Additional functions to apply after each reactive events computation
             autoruns: [
                 function () {
-                    console.log("user defined autorun function executed!");
+                   
                 }
             ]
         },
