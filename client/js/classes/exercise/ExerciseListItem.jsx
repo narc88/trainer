@@ -1,7 +1,7 @@
 
 ExerciseListItem = React.createClass({
 	loadExercise(){
-		FlowRouter.go('/exercise/'+this.props.exercise._id);
+		FlowRouter.go('/exercises/'+this.props.exercise._id);
 	},
 	render() {
 	    return	<li className="list-group-item clickable" onClick={this.loadExercise}>

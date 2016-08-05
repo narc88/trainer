@@ -1,6 +1,6 @@
 
 Meteor.methods({
-    addRoutine(text) {
+    /*addRoutine(text) {
         // Make sure the user is logged in before inserting a routine
         if (! Meteor.userId()) {
           //throw new Meteor.Error("not-authorized");
@@ -244,5 +244,5 @@ getRoutine(id) {
     return routine;
     //Session.set("routine", routine);
   },
-
+*/
 });

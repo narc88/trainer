@@ -139,6 +139,16 @@ FlowRouter.route('/images/add/:elementType/:elementId', {
 });
 
 
+/*Rutinas*/
+
+FlowRouter.route('/routines', {
+  action: function(params) {
+    const containerElement = document.getElementById("render-target");
+    React.render(<RoutineList/>, containerElement);
+  }
+});
+
+
 FlowRouter.route('/routines/add', {
   action: function(params) {
     const containerElement = document.getElementById("render-target");
@@ -159,6 +169,22 @@ FlowRouter.route('/register', {
   action: function(params) {
     const containerElement = document.getElementById("render-target");
     React.render(<Register/>, containerElement);
+  }
+});
+
+FlowRouter.route('/users', {
+  action: function(params) {
+    const containerElement = document.getElementById("render-target");
+    React.render(<UserList/>, containerElement);
+  }
+});
+
+
+FlowRouter.route('/users/:id', {
+  
+  action: function(params) {
+    const containerElement = document.getElementById("render-target");
+    React.render(<UserProfile id={params.id}/>, containerElement);
   }
 });
 

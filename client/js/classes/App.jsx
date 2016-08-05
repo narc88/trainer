@@ -25,9 +25,16 @@ App = React.createClass({
                     <ul className="dropdown-menu">
                       <li><a href="/logout">Salir</a></li>
                     </ul>
-                  </li>
+                  </li>;
     }else{
-      user_tpl = <a className="btn btn-default" role="button" href="/login">Entrar</a>
+      user_tpl = <li className="dropdown">
+                    <a className="btn btn-default dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Usuario <span className="caret"></span></a>
+                    <ul className="dropdown-menu">
+                      <li><a className="btn btn-default" role="button" href="/login">Entrar</a></li>
+                      <li><a className="btn btn-default" role="button" href="/register">Registrarse</a></li>
+                      <li><a className="btn btn-default" role="button" href="/users">Usuarios</a></li>
+                    </ul>
+                  </li>;
     }
     return  <div>
               <nav className="navbar navbar-default navbar-static-top">  
@@ -42,19 +49,33 @@ App = React.createClass({
                     <a className="navbar-brand" href="#">Brand</a> 
                   </div>  
                   <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-8"> 
-                    <ul className="nav navbar-nav"> 
+                    <ul className="nav navbar-nav">
                       <li className="active">
                         <a role="button" href="/calendar" >Calendario</a>
                       </li> 
                       <li className="dropdown">
-                        <a className="btn btn-default dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Rutinas<span className="caret"></span></a>
+                        <a className="btn btn-default dropdown-toggle" 
+                          data-toggle="dropdown" 
+                          role="button" 
+                          aria-haspopup="true" 
+                          aria-expanded="false">
+                            Rutinas
+                            <span className="caret"></span>
+                        </a>
                         <ul className="dropdown-menu">
                           <li><a href="/routines">Lista</a></li>
                           <li><a href="/routines/add">Crear Nueva</a></li>
                         </ul>
                       </li>
                       <li className="dropdown">
-                        <a className="btn btn-default dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Rutinas<span className="caret"></span></a>
+                        <a className="btn btn-default dropdown-toggle"
+                          data-toggle="dropdown" 
+                          role="button" 
+                          aria-haspopup="true" 
+                          aria-expanded="false">
+                            Ejercicio
+                            <span className="caret"></span>
+                        </a>
                         <ul className="dropdown-menu">
                           <li><a href="/exercises">Ejercicios</a></li>
                           <li><a href="/exercises/add">Crear Ejercicio</a></li>

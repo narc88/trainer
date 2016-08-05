@@ -27,3 +27,4 @@ ServiceConfiguration.configurations.insert({
   clientId: "yourClientId",
   secret: "yourSecret"
 });
+
