@@ -106,6 +106,64 @@ FlowRouter.route('/sessions/:id', {
 });
 
 
+/*Appointments*/
+FlowRouter.route('/turns', {
+  
+  action: function() {
+    const containerElement = document.getElementById("render-target");
+    React.render(<TurnList/>, containerElement);
+  }
+});
+
+
+FlowRouter.route('/turns/:id', {
+  
+  action: function(params) {
+    const containerElement = document.getElementById("render-target");
+    React.render(<Appointment appointment-id={params.id}/>, containerElement);
+  }
+});
+
+
+/*Gyms*/
+FlowRouter.route('/gyms', {
+  
+  action: function() {
+    const containerElement = document.getElementById("render-target");
+    React.render(<GymsList/>, containerElement);
+  }
+});
+
+
+FlowRouter.route('/gyms/add', {
+  
+  action: function(params) {
+    const containerElement = document.getElementById("render-target");
+    React.render(<GymsForm/>, containerElement);
+  }
+});
+
+
+/*Gyms*/
+FlowRouter.route('/clients', {
+  
+  action: function() {
+    const containerElement = document.getElementById("render-target");
+    React.render(<ClientList/>, containerElement);
+  }
+});
+
+
+FlowRouter.route('/clients/add', {
+  
+  action: function(params) {
+    const containerElement = document.getElementById("render-target");
+    React.render(<ClientForm/>, containerElement);
+  }
+});
+
+
+/*Exercises*/
 
 FlowRouter.route('/exercises/add', {
   

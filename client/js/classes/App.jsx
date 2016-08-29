@@ -23,6 +23,9 @@ App = React.createClass({
       user_tpl =  <li className="dropdown">
                     <a className="btn btn-default dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{username} <span className="caret"></span></a>
                     <ul className="dropdown-menu">
+                      
+                      <li><a href={'/users/'+Meteor.userId()}>Perfil</a></li>
+                      <li><a href={'/gyms/'+Meteor.userId()}>Gimnasio</a></li>
                       <li><a href="/logout">Salir</a></li>
                     </ul>
                   </li>;
@@ -79,6 +82,48 @@ App = React.createClass({
                         <ul className="dropdown-menu">
                           <li><a href="/exercises">Ejercicios</a></li>
                           <li><a href="/exercises/add">Crear Ejercicio</a></li>
+                        </ul>
+                      </li>
+                      <li className="dropdown">
+                        <a className="btn btn-default dropdown-toggle"
+                          data-toggle="dropdown" 
+                          role="button" 
+                          aria-haspopup="true" 
+                          aria-expanded="false">
+                            Gimnasios
+                            <span className="caret"></span>
+                        </a>
+                        <ul className="dropdown-menu">
+                          <li><a href="/gyms">Lista</a></li>
+                          <li><a href="/gyms/add">Nuevo</a></li>
+                        </ul>
+                      </li>
+                      <li className="dropdown">
+                        <a className="btn btn-default dropdown-toggle"
+                          data-toggle="dropdown" 
+                          role="button" 
+                          aria-haspopup="true" 
+                          aria-expanded="false">
+                            Alumnos
+                            <span className="caret"></span>
+                        </a>
+                        <ul className="dropdown-menu">
+                          <li><a href="/clients">Lista</a></li>
+                          <li><a href="/clients/add">Nuevo</a></li>
+                        </ul>
+                      </li>
+                      <li className="dropdown">
+                        <a className="btn btn-default dropdown-toggle" 
+                          data-toggle="dropdown" 
+                          role="button" 
+                          aria-haspopup="true" 
+                          aria-expanded="false">
+                            Turnos
+                            <span className="caret"></span>
+                        </a>
+                        <ul className="dropdown-menu">
+                          <li><a href="/turns">Lista</a></li>
+                          <li><a href="/turns/add">Crear Nueva</a></li>
                         </ul>
                       </li>
                       {user_tpl}

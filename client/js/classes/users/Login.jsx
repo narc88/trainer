@@ -23,6 +23,8 @@ Login = React.createClass({
     Meteor.loginWithFacebook({}, function(err){
       if (err) {
         throw new Meteor.Error("Facebook login failed");
+      }else{
+        FlowRouter.go('/users/'+Meteor.userId());
       }
     });
   }, 
