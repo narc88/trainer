@@ -74,16 +74,16 @@ UserProfile = React.createClass({
 										    	</div>
 										  	</div>
 										  	<div class="panel panel-default">
-										    	<div class="panel-heading" role="tab" id="headingExplanation">
+										    	<div class="panel-heading" role="tab" id="headingProfile">
 										      		<h4 class="panel-title">
-										        		<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseExplanation" aria-expanded="false" aria-controls="collapseExplanation">
-										          			Consejos
+										        		<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseProfile" aria-expanded="false" aria-controls="collapseProfile">
+										          			Perfil
 										        		</a>
 										      		</h4>
 										    	</div>
-										    	<div id="collapseExplanation" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingExplanation">
+										    	<div id="collapseProfile" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingProfile">
 										      		<div class="panel-body">
-										        		{this.data.user.tips}
+										        		<ClientForm client={this.data.client}/>
 										      		</div>
 										    	</div>
 										  	</div>
