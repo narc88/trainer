@@ -6,9 +6,10 @@ UserProfile = React.createClass({
 		let turns_subscription = Meteor.subscribe("turns");
 		let sessions_subscription = Meteor.subscribe("sessions");
 		let routines_subscription = Meteor.subscribe("routines");
+		let clients_subscription = Meteor.subscribe("clients");
 	    return {
 	    	isLoading: !subscription.ready(),
-	      	client: Meteor.client.find({ _id : this.props.id}, { sort: { createdAt: -1 } }).fetch()[0] || {},
+	      	client: Clients.find({ _id : this.props.id}, { sort: { createdAt: -1 } }).fetch()[0] || {},
 	      	user: Meteor.users.find({ client : this.props.id}, { sort: { createdAt: -1 } }).fetch()[0] || {},
 	      	turns: Turns.find({ client : this.props.id}, { sort: { createdAt: -1 } }).fetch() || {},
 	      	sessions: Sessions.find({ client : this.props.id}, { sort: { createdAt: -1 } }).fetch() || {},
@@ -46,43 +47,43 @@ UserProfile = React.createClass({
 									        </li>
 									       
 								        </ul>		
-						        		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-											<div class="panel panel-default">
-										    	<div class="panel-heading" role="tab" id="headingRoutine">
-										      		<h4 class="panel-title">
+						        		<div className="panel-group col-sm-11 col-md-11 col-xs-11" id="accordion" role="tablist" aria-multiselectable="true">
+											<div className="panel panel-default">
+										    	<div className="panel-heading" role="tab" id="headingRoutine">
+										      		<h4 className="panel-title">
 										        		<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseRoutine" aria-expanded="false" aria-controls="collapseRoutine">
 										          			Rutinas
 										        		</a>
 										      		</h4>
 										    	</div>
-										    	<div id="collapseRoutine" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingRoutine">
-										      		<div class="panel-body">
+										    	<div id="collapseRoutine" className="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingRoutine">
+										      		<div className="panel-body">
 										      		</div>
 										    	</div>
 										  	</div>
-										  	<div class="panel panel-default">
-										    	<div class="panel-heading" role="tab" id="headingSession">
-										      		<h4 class="panel-title">
+										  	<div className="panel panel-default">
+										    	<div className="panel-heading" role="tab" id="headingSession">
+										      		<h4 className="panel-title">
 										        		<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSession" aria-expanded="false" aria-controls="collapseSession">
 										          			Ultimas Sesiones
 										        		</a>
 										      		</h4>
 										    	</div>
-										    	<div id="collapseSession" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingSession">
-										      		<div class="panel-body">
+										    	<div id="collapseSession" className="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingSession">
+										      		<div className="panel-body">
 										      		</div>
 										    	</div>
 										  	</div>
-										  	<div class="panel panel-default">
-										    	<div class="panel-heading" role="tab" id="headingProfile">
-										      		<h4 class="panel-title">
+										  	<div className="panel panel-default">
+										    	<div className="panel-heading" role="tab" id="headingProfile">
+										      		<h4 className="panel-title">
 										        		<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseProfile" aria-expanded="false" aria-controls="collapseProfile">
 										          			Perfil
 										        		</a>
 										      		</h4>
 										    	</div>
-										    	<div id="collapseProfile" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingProfile">
-										      		<div class="panel-body">
+										    	<div id="collapseProfile" className="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingProfile">
+										      		<div className="panel-body">
 										        		<ClientForm client={this.data.client}/>
 										      		</div>
 										    	</div>

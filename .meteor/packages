@@ -42,3 +42,5 @@ standard-minifier-js
 service-configuration
 juliancwirko:s-alert-stackslide
 alanning:roles
+izzilab:material-ui
+coniel:react-tap-event-plugin
