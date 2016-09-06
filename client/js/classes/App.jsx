@@ -9,7 +9,8 @@ var {
     IconButton,
     NavigationClose,
     linkButton,
-    Link
+    Link,
+    MobileTearSheet
     } = MUI;
 
 var {SvgIcons} = MUI.Libs;
@@ -54,11 +55,23 @@ App = React.createClass({
                     href={'/users/'+ Meteor.userId()} 
                     label="Perfil" 
                     primaryText="Perfil" />;
-      user_tpl2 = <MenuItem value={'/users/' + Meteor.userId() + '/gym'} label="Mi Gimnasio" primaryText="Mi Gimnasio" />;
-      user_tpl3 = <MenuItem value='/logout' label="Menu" primaryText="Salir" />;
+      user_tpl2 = <MenuItem linkButton
+                    href={'/users/' + Meteor.userId() + '/gym'} 
+                    label="Mi Gimnasio" 
+                    primaryText="Mi Gimnasio" />;
+      user_tpl3 = <MenuItem linkButton
+                    href='/logout' 
+                    label="Menu" 
+                    primaryText="Salir" />;
     }else{
-      user_tpl1 = <MenuItem value={'/login'} label="Entrar" primaryText="Entrar" />;
-      user_tpl2 = <MenuItem value={'/register'} label="Registrarse" primaryText="Registrarse" />;
+      user_tpl1 = <MenuItem linkButton
+                    href={'/login'} 
+                    label="Entrar" 
+                    primaryText="Entrar" />;
+      user_tpl2 = <MenuItem linkButton
+                    href={'/register'} 
+                    label="Registrarse" 
+                    primaryText="Registrarse" />;
     }
     return  <div>
               <AppBar
@@ -73,12 +86,30 @@ App = React.createClass({
                     anchorOrigin={{horizontal: 'right', vertical: 'top'}}
                     onTouchTap={this.handleChange}
                   >
-                    <MenuItem value='/calendar' label="Calendario" primaryText="Calendario" />
-                    <MenuItem value='/routines' label="Rutinas" primaryText="Rutinas" />
-                    <MenuItem value='/exercises' label="Ejercicios" primaryText="Ejercicios" />
-                    <MenuItem value='/gyms' label="Gimnasios" primaryText="Gimnasios" />
-                    <MenuItem value='/clients' label="Alumnos" primaryText="Alumnos" />
-                    <MenuItem value='/turnos' label="Turnos" primaryText="Turnos" />
+                    <MenuItem linkButton
+                      href='/calendar' 
+                      label="Calendario" 
+                      primaryText="Calendario" />
+                    <MenuItem linkButton
+                      href='/routines' 
+                      label="Rutinas" 
+                      primaryText="Rutinas" />
+                    <MenuItem linkButton
+                      href='/exercises' 
+                      label="Ejercicios" 
+                      primaryText="Ejercicios" />
+                    <MenuItem linkButton
+                      href='/gyms' 
+                      label="Gimnasios" 
+                      primaryText="Gimnasios" />
+                    <MenuItem linkButton
+                      href='/clients' 
+                      label="Alumnos" 
+                      primaryText="Alumnos" />
+                    <MenuItem linkButton
+                      href='/turnos' 
+                      label="Turnos" 
+                      primaryText="Turnos" />
                     {user_tpl1}
                     {user_tpl2}
                     {user_tpl3}

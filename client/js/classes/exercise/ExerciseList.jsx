@@ -12,13 +12,18 @@ ExerciseList = React.createClass({
 	componentDidMount() {
 	},
 	render() {
-	    return <div>
-	    			<h1>Ejercicios</h1>
-	    			<ul class="list-group">
-		                {this.data.exercises.map(function(object, i){
-				            return <ExerciseListItem exercise={object} key={object._id}/>
-				        })}
-			        </ul>
-	            </div>;
+	    return 	<MobileTearSheet>
+				    <List>
+				      	<Subheader inset={true}>Ejercicios</Subheader>
+				      	{this.data.exercises.map(function(object, i){
+				      		return <ListItem
+								        leftAvatar={<Avatar icon={<FileFolder />} />}
+								        rightIcon={<ActionInfo />}
+								        primaryText={object.name}
+								        secondaryText={object.description}
+								    />
+			        	})}
+				    </List>
+				</MobileTearSheet>;
 	}
 });

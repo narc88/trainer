@@ -11,13 +11,18 @@ ClientList = React.createClass({
 	componentDidMount() {
 	},
 	render() {
-	    return <div>
-	    			<h1>Alumnos</h1>
-	    			<ul class="list-group">
-		                {this.data.clients.map(function(object, i){
-				            return <Client client={object} key={object._id}/>
-				        })}
-			        </ul>
-	            </div>;
+	    return 	<MobileTearSheet>
+				    <List>
+				      	<Subheader inset={true}>Alumnos</Subheader>
+				      	{this.data.clients.map(function(object, i){
+				      		return <ListItem
+								        leftAvatar={<Avatar icon={<FileFolder />} />}
+								        rightIcon={<ActionInfo />}
+								        primaryText={object.name}
+								        secondaryText={object.birthDate}
+								    />
+			        	})}
+				    </List>
+				</MobileTearSheet>;
 	}
 });
