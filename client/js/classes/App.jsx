@@ -9,8 +9,7 @@ var {
     IconButton,
     NavigationClose,
     linkButton,
-    Link,
-    MobileTearSheet
+    Link
     } = MUI;
 
 var {SvgIcons} = MUI.Libs;

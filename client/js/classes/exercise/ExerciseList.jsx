@@ -1,4 +1,13 @@
 
+var {
+    List,
+    ListItem,
+    Avatar,
+    ActionInfo
+    } = MUI;
+
+var {SvgIcons} = MUI.Libs;
+
 ExerciseList = React.createClass({
 	mixins: [ReactMeteorData],
 	getMeteorData() {
@@ -9,21 +18,25 @@ ExerciseList = React.createClass({
 	      	exercises: Exercises.find({}, { sort: { createdAt: -1 } }).fetch(),
 	    };
 	},
+	_onListItemSelected: function(e) {
+        console.log(e);
+    },
 	componentDidMount() {
 	},
 	render() {
-	    return 	<MobileTearSheet>
+		var _onListItemSelected = this._onListItemSelected;
+	    return 	<div>
 				    <List>
-				      	<Subheader inset={true}>Ejercicios</Subheader>
 				      	{this.data.exercises.map(function(object, i){
 				      		return <ListItem
-								        leftAvatar={<Avatar icon={<FileFolder />} />}
-								        rightIcon={<ActionInfo />}
+								        leftAvatar={<Avatar src='http://res.cloudinary.com/db6uq4jy9/image/upload/v1466101331/c2w7b99g3o21chn5bmxb.jpg' />}
+								        rightIcon={<SvgIcons.ActionInfo />}
 								        primaryText={object.name}
+								        onTouchTap={() => _onListItemSelected(object._id)}
 								        secondaryText={object.description}
 								    />
 			        	})}
 				    </List>
-				</MobileTearSheet>;
+				</div>;
 	}
 });
