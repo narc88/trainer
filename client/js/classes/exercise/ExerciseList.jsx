@@ -19,7 +19,7 @@ ExerciseList = React.createClass({
 	    };
 	},
 	_onListItemSelected: function(e) {
-        console.log(e);
+        console.log('Moving to'+e);
     },
 	componentDidMount() {
 	},
