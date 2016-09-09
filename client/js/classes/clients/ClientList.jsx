@@ -1,3 +1,14 @@
+
+var {
+    List,
+    ListItem,
+    Avatar,
+    ActionInfo,
+    Card
+    } = MUI;
+
+var {SvgIcons} = MUI.Libs;
+
 ClientList = React.createClass({
 	mixins: [ReactMeteorData],
 	getMeteorData() {
@@ -8,21 +19,26 @@ ClientList = React.createClass({
 	      	clients: Clients.find({}, { sort: { createdAt: -1 } }).fetch(),
 	    };
 	},
+	_onListItemSelected: function(e) {
+        console.log('Moving to'+e);
+        FlowRouter.go('/clients/'+e);
+    },
 	componentDidMount() {
 	},
 	render() {
-	    return 	<MobileTearSheet>
+		var _onListItemSelected = this._onListItemSelected;
+	    return 	<div>
 				    <List>
-				      	<Subheader inset={true}>Alumnos</Subheader>
 				      	{this.data.clients.map(function(object, i){
 				      		return <ListItem
-								        leftAvatar={<Avatar icon={<FileFolder />} />}
-								        rightIcon={<ActionInfo />}
+								        leftAvatar={<Avatar src='http://res.cloudinary.com/db6uq4jy9/image/upload/v1466101331/c2w7b99g3o21chn5bmxb.jpg' />}
+								        rightIcon={<SvgIcons.ActionInfo />}
 								        primaryText={object.name}
-								        secondaryText={object.birthDate}
+								        onTouchTap={() => _onListItemSelected(object._id)}
+								        secondaryText={object.description}
 								    />
 			        	})}
 				    </List>
-				</MobileTearSheet>;
+				</div>;
 	}
 });

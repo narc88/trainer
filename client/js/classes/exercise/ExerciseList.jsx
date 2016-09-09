@@ -20,6 +20,7 @@ ExerciseList = React.createClass({
 	},
 	_onListItemSelected: function(e) {
         console.log('Moving to'+e);
+        FlowRouter.go('/exercises/'+e);
     },
 	componentDidMount() {
 	},

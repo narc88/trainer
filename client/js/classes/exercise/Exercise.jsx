@@ -1,4 +1,14 @@
 
+var {
+    CardTitle,
+    CardHeader,
+    CardMedia,
+    CardText,
+    Card
+    } = MUI;
+
+var {SvgIcons} = MUI.Libs;
+
 Exercise = React.createClass({
 	mixins: [ReactMeteorData],
 	getMeteorData() {
