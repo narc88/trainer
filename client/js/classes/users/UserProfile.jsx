@@ -14,7 +14,10 @@ var {
     CardMedia,
     CardText,
     Card,
-    Chip
+    Chip,
+    Dialog,
+    RaisedButton,
+    FlatButton
     } = MUI;
 
 
@@ -43,6 +46,7 @@ UserProfile = React.createClass({
 	render() {
 		var template = '';
 		var weekday = '';
+		var handleRequestDelete = this.handleRequestDelete;
 		if(!this.data.isLoading){
 	      	template = 	<Card>
 						    <CardHeader
@@ -53,11 +57,23 @@ UserProfile = React.createClass({
 						    <CardText>
 							    {this.data.turns.map(function(object, i){
 							    	weekday = this.props.turn.day;
-						            return 	<Chip onRequestDelete={() => this.handleRequestDelete(object._id)}>
+						            return 	<Chip onRequestDelete={() => handleRequestDelete(object._id)}>
 						            			{lodash.find(WEEKDAYS, function(o) { return o.value == weekday; }).label} - {object.hour}:{object.minute}
 						            		</Chip>
 						        })}
-							    {this.data.client.name}
+							    <TurnDialog/>
+						        Ultimas Sesiones
+							    <List>
+							    	{this.data.sessions.map(function(object, i){
+						            	return 	<ListItem  primaryText={object.date} secondaryText={object.objective + ' ' object.duration} > </ListItem>
+						        	})}
+						        </List>
+						        Rutinas activas
+						        <List>
+							    	{this.data.routines.map(function(object, i){
+						            	return 	<ListItem  primaryText={object.date} secondaryText={object.objective + ' ' object.duration} > </ListItem>
+						        	})}
+						        </List>
 						    </CardText>
 					  	</Card>;
 	    }else{
