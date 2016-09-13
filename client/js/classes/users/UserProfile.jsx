@@ -1,3 +1,24 @@
+var WEEKDAYS = [
+	{'value':0, 'label':'Domingo'},
+	{'value':1 , 'label':'Lunes'},
+	{'value':2 , 'label':'Martes'},
+	{'value':3 , 'label':'Miércoles'},
+	{'value':4 , 'label':'Jueves'},
+	{'value':5 , 'label':'Viernes'},
+	{'value':6 , 'label':'Sábado'}
+]
+
+var {
+    CardTitle,
+    CardHeader,
+    CardMedia,
+    CardText,
+    Card,
+    Chip
+    } = MUI;
+
+
+var {SvgIcons} = MUI.Libs;
 
 UserProfile = React.createClass({
 	mixins: [ReactMeteorData],
@@ -16,83 +37,29 @@ UserProfile = React.createClass({
 	      	routines: Routines.find({ client : this.props.id}, { sort: { createdAt: -1 } }).fetch() || {},
 	    };
 	},
+	handleRequestDelete(id){
+	  	Meteor.call('removeTurn', id, function (error, result) {});
+	},
 	render() {
 		var template = '';
+		var weekday = '';
 		if(!this.data.isLoading){
-	      	template = 	<div className="row">
-						  	<div className="col-sm-12 col-md-12">
-						    	<div className="thumbnail">
-						      		<img src="http://res.cloudinary.com/db6uq4jy9/image/upload/v1466101331/c2w7b99g3o21chn5bmxb.jpg" alt="..."/>
-						      		<div className="caption">
-						        		<h3>Nombre de usuario</h3>
-						        		<p>Asiste</p>
-						        		<ul className="list-group">
-							                {this.data.turns.map(function(object, i){
-									            return <TurnItem turn={object} key={object._id}/>
-									        })}
-									        <li> 
-									        	<a role="button" 
-									        		data-toggle="collapse"  
-									        		href="#collapseAppointmentForm" 
-									        		aria-expanded="false" 
-									        		aria-controls="collapseAppointmentForm">
-									        		Agregar turno 
-									        		<span className="glyphicon glyphicon-calendar"></span>
-									        	</a>
-									        	<div id="collapseAppointmentForm" className="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingAppointmentForm">
-										      		<div className="panel-body">
-										      			<TurnForm/>
-										      		</div>
-										    	</div>
-									        </li>
-									       
-								        </ul>		
-						        		<div className="panel-group col-sm-11 col-md-11 col-xs-11" id="accordion" role="tablist" aria-multiselectable="true">
-											<div className="panel panel-default">
-										    	<div className="panel-heading" role="tab" id="headingRoutine">
-										      		<h4 className="panel-title">
-										        		<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseRoutine" aria-expanded="false" aria-controls="collapseRoutine">
-										          			Rutinas
-										        		</a>
-										      		</h4>
-										    	</div>
-										    	<div id="collapseRoutine" className="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingRoutine">
-										      		<div className="panel-body">
-										      		</div>
-										    	</div>
-										  	</div>
-										  	<div className="panel panel-default">
-										    	<div className="panel-heading" role="tab" id="headingSession">
-										      		<h4 className="panel-title">
-										        		<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSession" aria-expanded="false" aria-controls="collapseSession">
-										          			Ultimas Sesiones
-										        		</a>
-										      		</h4>
-										    	</div>
-										    	<div id="collapseSession" className="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingSession">
-										      		<div className="panel-body">
-										      		</div>
-										    	</div>
-										  	</div>
-										  	<div className="panel panel-default">
-										    	<div className="panel-heading" role="tab" id="headingProfile">
-										      		<h4 className="panel-title">
-										        		<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseProfile" aria-expanded="false" aria-controls="collapseProfile">
-										          			Perfil
-										        		</a>
-										      		</h4>
-										    	</div>
-										    	<div id="collapseProfile" className="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingProfile">
-										      		<div className="panel-body">
-										        		<ClientForm client={this.data.client}/>
-										      		</div>
-										    	</div>
-										  	</div>
-										</div>
-						      		</div>
-						    	</div>
-						  	</div>
-						</div>;
+	      	template = 	<Card>
+						    <CardHeader
+							    title={this.data.client.name} subtitle={this.data.client.age+' Años'}
+							    avatar="http://res.cloudinary.com/db6uq4jy9/image/upload/v1466101331/c2w7b99g3o21chn5bmxb.jpg"
+						    />
+						    <CardTitle title={this.data.client.name} subtitle={this.data.client.description} />
+						    <CardText>
+							    {this.data.turns.map(function(object, i){
+							    	weekday = this.props.turn.day;
+						            return 	<Chip onRequestDelete={() => this.handleRequestDelete(object._id)}>
+						            			{lodash.find(WEEKDAYS, function(o) { return o.value == weekday; }).label} - {object.hour}:{object.minute}
+						            		</Chip>
+						        })}
+							    {this.data.client.name}
+						    </CardText>
+					  	</Card>;
 	    }else{
 	    	template = 	<Loading/>
 	    }
