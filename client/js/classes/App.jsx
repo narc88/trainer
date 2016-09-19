@@ -9,7 +9,8 @@ var {
     IconButton,
     NavigationClose,
     linkButton,
-    Link
+    Link,
+    LeftNav
     } = MUI;
 
 var {SvgIcons} = MUI.Libs;
@@ -33,7 +34,9 @@ App = React.createClass({
       signedIn: Meteor.user() != null
     }
   },
-
+  toggleDrawer(){
+    this.setState({open: !this.state.open});
+  },
   handleChange(event, index, value){
     console.log(value)
     console.log(event)
@@ -43,7 +46,8 @@ App = React.createClass({
     return {
       errors: {},
       menuTitle: 'Home',
-      menu: '/calendar'
+      menu: '/calendar',
+      open:false
     }
   },
   render() {
@@ -75,11 +79,15 @@ App = React.createClass({
     return  <div>
               <AppBar
                 title={this.state.menuTitle}
-                iconElementLeft={<IconButton><SvgIcons.NavigationClose /></IconButton>}
+                iconElementLeft={<IconButton
+                                    onTouchTap={this.toggleDrawer}
+                                  >
+                                    <SvgIcons.ImageDehaze />
+                                  </IconButton>}
                 iconElementRight={
                   <IconMenu
                     iconButtonElement={
-                      <IconButton><SvgIcons.NavigationMoreVert /></IconButton>
+                      <IconButton ><SvgIcons.NavigationMoreVert /></IconButton>
                     }
                     targetOrigin={{horizontal: 'right', vertical: 'top'}}
                     anchorOrigin={{horizontal: 'right', vertical: 'top'}}
@@ -106,15 +114,28 @@ App = React.createClass({
                       label="Alumnos" 
                       primaryText="Alumnos" />
                     <MenuItem linkButton
-                      href='/turnos' 
+                      href='/turns' 
                       label="Turnos" 
                       primaryText="Turnos" />
+                    <MenuItem linkButton
+                      href='/clients' 
+                      label="Alumnos" 
+                      primaryText="Alumnos" />
                     {user_tpl1}
                     {user_tpl2}
                     {user_tpl3}
                   </IconMenu>
                 }
-              />  
+              /> 
+              <LeftNav
+                docked={false}
+                width={200}
+                open={this.state.open}
+                onRequestChange={(open) => this.setState({open})}
+              >
+                <MenuItem onTouchTap={this.handleClose}>Menu Item</MenuItem>
+                <MenuItem onTouchTap={this.handleClose}>Menu Item 2</MenuItem>
+              </LeftNav>
               <div id="render-target"></div>
             </div>;
   }

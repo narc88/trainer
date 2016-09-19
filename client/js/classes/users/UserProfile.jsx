@@ -16,6 +16,8 @@ var {
     Card,
     Chip,
     Dialog,
+    List,
+    ListItem,
     RaisedButton,
     FlatButton
     } = MUI;
@@ -65,13 +67,13 @@ UserProfile = React.createClass({
 						        Ultimas Sesiones
 							    <List>
 							    	{this.data.sessions.map(function(object, i){
-						            	return 	<ListItem  primaryText={object.date} secondaryText={object.objective + ' ' object.duration} > </ListItem>
+						            	return 	<ListItem  primaryText={object.date} secondaryText={object.objective + ' ' + object.duration} > </ListItem>
 						        	})}
 						        </List>
 						        Rutinas activas
 						        <List>
 							    	{this.data.routines.map(function(object, i){
-						            	return 	<ListItem  primaryText={object.date} secondaryText={object.objective + ' ' object.duration} > </ListItem>
+						            	return 	<ListItem  primaryText={object.date} secondaryText={object.objective + ' ' + object.duration} > </ListItem>
 						        	})}
 						        </List>
 						    </CardText>

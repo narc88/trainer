@@ -8,10 +8,18 @@ var WEEKDAYS = [
 	{'value':6 , 'label':'Sábado'}
 ]
 
+
+var FREQ = [
+	{'value': 'weekly', 'label':'Semanal'},
+	{'value':'once' , 'label':'Una vez'}
+]
+
+
 var {
     Dialog,
     RaisedButton,
-    FlatButton
+    FlatButton,
+    TimePicker,
     } = MUI;
 
 var {SvgIcons} = MUI.Libs;
@@ -19,14 +27,15 @@ var {SvgIcons} = MUI.Libs;
 TurnDialog = React.createClass({
   	getInitialState() {
 		return {
+				errors : [],
 			    open: false,
 			    data: { frequency : 'weekly'}
 			  }
   	},
-	handleOpen = () => {
+	handleOpen() {
 	    this.setState({open: true});
 	},
-	handleClose = () => {
+	handleClose() {
 	    this.setState({open: false});
 	},
   	isValid(frequency) {
@@ -93,20 +102,6 @@ TurnDialog = React.createClass({
   			data: data
   		});
   	},
-  	renderDateTime(id, label){
-	    var datetimeid = 'datetimepicker'+id;
-	    setTimeout(function(){
-	      $('#'+datetimeid).datetimepicker();
-	    },500);
-	    
-	    return this.renderField(id, label, 
-	            <div className="input-group date" id={datetimeid}>
-	              <input type="text" id={id} className="form-control" />  
-	              <span className="input-group-addon">
-	                <span className="glyphicon-calendar glyphicon"></span>
-	              </span>
-	            </div>);
-	},
   	renderTextInput(id, label) {
 		return this.renderField(id,
 								label,
@@ -130,13 +125,24 @@ TurnDialog = React.createClass({
 				);
 	},
   	renderField(id, label, field) {
-		return <div className={classNames('form-group', 'form-group-sm','col-xs-6', 'col-sm-6', 'col-md-6' , {'has-error': id in this.state.errors})}>
-					<label htmlFor={id} className="col-sm-4 control-label">{label}</label>
-					<div className="col-sm-6">
+		return <div className={classNames('form-group', 'form-group-sm' , {'has-error': id in this.state.errors})}>
+					<label htmlFor={id} className="control-label">{label}</label>
+					<div className="">
 						{field}
 					</div>
 				</div>;
-	}
+	},
+	timePickerChange(event, date) {
+		var new_date = this.state.data;
+		new_date.hour = date.getHours();
+		new_date.minute = date.getMinutes();
+    	this.setState({data: new_date});
+  	},
+  	datePickerChange(event, date){
+  		var new_date = this.state.data;
+		new_date.datetime = date;
+    	this.setState({data: new_date});
+  	},
 	render() {
 	    const actions = [
 	      <FlatButton
@@ -151,20 +157,22 @@ TurnDialog = React.createClass({
 	        onTouchTap={this.handleSubmit}
 	      />,
 	    ];
-
+	    var form_container = '';
+  		if(this.state.data.frequency === 'weekly'){
+	  		form_container = 	<div>
+	  								{this.renderSelect('day', 'Dia de la semana', WEEKDAYS)}
+	  								<TimePicker hintText="Formato 12 horas" onChange={this.timePickerChange}/>
+	  							</div>;
+	  	}else{
+	  		form_container = 	<div>
+	  								<DatePicker
+								        hintText="Ingrese fecha"
+								        onChange={this.datePickerChange}
+								    />
+	  								<TimePicker hintText="Formato 12 horas" onChange={this.timePickerChange}/>
+	  							</div>
+	  	}
 	    return (
-	    	var form_container = '';
-	  		if(this.state.data.frequency === 'weekly'){
-		  		form_container = 	<div>
-		  								{this.renderSelect('day', 'Dia de la semana', WEEKDAYS)}
-		  								{this.renderNumberInput('hour', 'Horario')}
-		  								{this.renderNumberInput('minute', '')}
-		  							</div>;
-		  	}else{
-		  		form_container = 	<div>
-		  								{this.renderDateTime('datetime', 'Fecha y Hora')}
-		  							</div>
-		  	}
 		    <div>
 		        <RaisedButton label="Nuevo Turno" onTouchTap={this.handleOpen} />
 		        <Dialog

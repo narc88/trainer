@@ -4,7 +4,11 @@ var {
     ListItem,
     Avatar,
     ActionInfo,
-    Card
+    FloatingActionButton,
+    Card,
+    Styles,
+    Paper,
+    FontIcon
     } = MUI;
 
 var {SvgIcons} = MUI.Libs;
@@ -26,8 +30,14 @@ ClientList = React.createClass({
 	componentDidMount() {
 	},
 	render() {
+		var style = {
+			  	marginRight: 20,
+			}
 		var _onListItemSelected = this._onListItemSelected;
 	    return 	<div>
+	    			<FloatingActionButton  mini={true} secondary={true} style={style}>
+				      	<SvgIcons.ContentAdd />
+				    </FloatingActionButton>
 				    <List>
 				      	{this.data.clients.map(function(object, i){
 				      		return <ListItem
