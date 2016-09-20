@@ -8,13 +8,19 @@ Template.CalendarTemplate.helpers({
             allDaySlot: false,
             lang: 'es',
             header:{
-                left:   'agendaWeek, agendaDay',
-                center: 'title',
-                right:  'today prev,next'
+                left:   'prev',
+                center: 'agendaWeek, today, agendaDay',
+                right:  'next'
             },
             defaultView:'agendaDay',
             // Function providing events reactive computation for fullcalendar plugin
             events: function (start, end, timezone, callback) {
+
+                function getAcronym(str){
+                    var matches = str.match(/\b(\w)/g);             
+                    return matches.join('');    
+                }
+
                 function getDayOfWeek(d, dayOfWeek) {
                     d = new Date(d);
                     var day = d.getDay(),
@@ -25,7 +31,6 @@ Template.CalendarTemplate.helpers({
                 var dayStart = start._d.getDay();
                 var dayEnd = end._d.getDay();
                 var d = new Date();
-
                 var turns = Turns.find({'frequency' : 'weekly', 'day' : { $gt: dayStart}, 'day' : { $lt: dayEnd} }).fetch();
 
                 var events = [];
@@ -34,13 +39,13 @@ Template.CalendarTemplate.helpers({
                     turn.start = getDayOfWeek(d, turn.day);
                     turn.start.setHours(turn.hour);
                     turn.start.setMinutes(turn.minute);
-                    turn.title = turn.username;
+                    turn.title = getAcronym(turn.username  || 'JOHN DOE');
                     eventDetails = {};
                     for(key in turn)
                         eventDetails[key] = turn[key];
                     events.push(eventDetails);
                 });
-
+                console.log(events.length)
                 callback(events);
             },
             eventClick: function(event, element) {

@@ -136,7 +136,7 @@ App = React.createClass({
                 <MenuItem onTouchTap={this.handleClose}>Menu Item</MenuItem>
                 <MenuItem onTouchTap={this.handleClose}>Menu Item 2</MenuItem>
               </LeftNav>
-              <div id="render-target"></div>
+              <div id="render-target" refs="rootElement"></div>
             </div>;
   }
 });

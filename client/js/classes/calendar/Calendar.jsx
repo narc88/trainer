@@ -9,8 +9,12 @@ Calendar = React.createClass({
     };
   },
   componentDidMount() {
-    this.view = Blaze.render(Template.CalendarTemplate,
-      ReactDOM.findDOMNode(this.refs.container));
+    var self = this;
+    setTimeout(function(){ 
+      self.view = Blaze.render(Template.CalendarTemplate,
+      ReactDOM.findDOMNode(self.refs.container));
+    }, 1500);
+    
   },
   componentWillUnmount() {
     Blaze.remove(this.view);
