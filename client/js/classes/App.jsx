@@ -10,7 +10,8 @@ var {
     NavigationClose,
     linkButton,
     Link,
-    LeftNav
+    LeftNav,
+    Menu
     } = MUI;
 
 var {SvgIcons} = MUI.Libs;
@@ -129,12 +130,100 @@ App = React.createClass({
               /> 
               <LeftNav
                 docked={false}
-                width={200}
                 open={this.state.open}
                 onRequestChange={(open) => this.setState({open})}
-              >
-                <MenuItem onTouchTap={this.handleClose}>Menu Item</MenuItem>
-                <MenuItem onTouchTap={this.handleClose}>Menu Item 2</MenuItem>
+              > 
+                <Menu autoWidth={true}>
+                  <MenuItem 
+                    primaryText="Inicio" 
+                    linkButton
+                    href='/home' 
+                    label="Inicio"
+                    insetChildren={true}
+                    leftIcon={<SvgIcons.ActionHome />} />
+                  <MenuItem 
+                    primaryText="Alumnos"
+                    label="Alumnos"
+                    insetChildren={true}
+                    rightIcon={<SvgIcons.NavigationArrowDropRight />}
+                    leftIcon={<SvgIcons.ActionSupervisorAccount />} 
+                    menuItems={[
+                      <MenuItem 
+                        primaryText="Lista" 
+                        linkButton
+                        href='/clients' 
+                        label="Alumnos"
+                        insetChildren={true}
+                        leftIcon={<SvgIcons.ActionViewList />} />,
+                      <MenuItem 
+                        primaryText="Nuevo" 
+                        linkButton
+                        href='/clients/add' 
+                        label="Nuevo"
+                        insetChildren={true}
+                        leftIcon={<SvgIcons.ContentAddCircle />} />,
+                      <MenuItem 
+                        primaryText="Lista" 
+                        linkButton
+                        href='/clients' 
+                        label="Alumnos"
+                        insetChildren={true}
+                        leftIcon={<SvgIcons.ActionSupervisorAccount />} />
+                    ]}
+                  />
+                  <MenuItem linkButton
+                    href='/calendar' 
+                    label="Calendario" 
+                    primaryText="Calendario"
+                    insetChildren={true}
+                    leftIcon={<SvgIcons.ActionToday />} />
+                  <MenuItem  
+                    label="Ejercicios" 
+                    primaryText="Ejercicios" 
+                    insetChildren={true}
+                    leftIcon={<SvgIcons.ActionAccessibility />}
+                    rightIcon={<SvgIcons.NavigationArrowDropRight />}
+                    menuItems={[
+                      <MenuItem 
+                        primaryText="Lista" 
+                        linkButton
+                        href='/exercises' 
+                        label="Ejercicios"
+                        insetChildren={true}
+                        leftIcon={<SvgIcons.ActionViewList />} />,
+                      <MenuItem 
+                        primaryText="Nuevo" 
+                        linkButton
+                        href='/exercises/add' 
+                        label="Nuevo"
+                        insetChildren={true}
+                        leftIcon={<SvgIcons.ContentAddCircle />} />
+                    ]}
+                  />
+                  <MenuItem  
+                    label="Rutinas" 
+                    primaryText="Rutinas"
+                    insetChildren={true}
+                    rightIcon={<SvgIcons.NavigationArrowDropRight />}
+                    leftIcon={<SvgIcons.ActionAssignment />} 
+                    menuItems={[
+                      <MenuItem 
+                        primaryText="Lista" 
+                        linkButton
+                        href='/routines' 
+                        label="Rutinas"
+                        insetChildren={true}
+                        leftIcon={<SvgIcons.ActionViewList />} />,
+                      <MenuItem 
+                        primaryText="Nueva" 
+                        linkButton
+                        href='/routines/add' 
+                        label="Nueva"
+                        insetChildren={true}
+                        leftIcon={<SvgIcons.ContentAddCircle />} />
+                    ]}
+                  />
+                </Menu>
               </LeftNav>
               <div id="render-target" refs="rootElement"></div>
             </div>;

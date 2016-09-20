@@ -3,7 +3,12 @@ var {
     List,
     ListItem,
     Avatar,
-    ActionInfo
+    ActionInfo,
+    Menu,
+    MenuItem,
+    Divider,
+    IconButton,
+    IconMenu
     } = MUI;
 
 var {SvgIcons} = MUI.Libs;
@@ -30,12 +35,22 @@ ExerciseList = React.createClass({
 				    <List>
 				      	{this.data.exercises.map(function(object, i){
 				      		return <ListItem
-								        leftAvatar={<Avatar src='http://res.cloudinary.com/db6uq4jy9/image/upload/v1466101331/c2w7b99g3o21chn5bmxb.jpg' />}
-								        rightIcon={<SvgIcons.ActionInfo />}
+								        leftAvatar={<Avatar onTouchTap={() => _onListItemSelected(object._id)} src='http://res.cloudinary.com/db6uq4jy9/image/upload/v1466101331/c2w7b99g3o21chn5bmxb.jpg' />}
+								        rightIcon={<IconMenu
+												      iconButtonElement={<IconButton><SvgIcons.ActionInfo /></IconButton>}
+												      anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+												      targetOrigin={{horizontal: 'left', vertical: 'bottom'}}
+												    >
+												      	<MenuItem primaryText="Refresh" />
+												      	<MenuItem primaryText="Send feedback" />
+												      	<MenuItem primaryText="Settings" />
+												      	<MenuItem primaryText="Help" />
+												      	<MenuItem primaryText="Sign out" />
+												    </IconMenu>}
 								        primaryText={object.name}
-								        onTouchTap={() => _onListItemSelected(object._id)}
 								        secondaryText={object.description}
-								    />
+								    >
+								    </ListItem>
 			        	})}
 				    </List>
 				</div>;
