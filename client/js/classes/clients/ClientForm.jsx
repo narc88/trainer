@@ -36,9 +36,8 @@ ClientForm = React.createClass({
   	} ,
   	handleSubmit(event) {
 	  	event.preventDefault();
-	  	let client = lodash.extend(this.props.client , this.getFormData());
+	  	let client = this.getFormData();
 	  	if(this.isValid()){
-	  		client.user = Meteor.userId();
 	  		Meteor.call('addClient', client, function (error, result) {});
 	  	}
   	},
@@ -52,12 +51,12 @@ ClientForm = React.createClass({
   	},
   	render() {
   		var form_container = '';
-		return <div className="form-horizontal">
-					<form onSubmit={this.handleSubmit} ref="turnForm">
-						{this.renderTextInput('name', 'Nombre', this.props.client.name)}
-						{this.renderTextInput('birthDate', 'Fecha de nacimiento', this.props.client.birthDate)}
-						{this.renderSelect('sex', 'Sexo', SEX, this.props.client.sex)}
-						{this.renderDateTime('bloodType', 'Grupo y Factor', this.props.client.bloodType)}
+		return <div className="">
+					<form onSubmit={this.handleSubmit} ref="">
+						{this.renderTextInput('name', 'Nombre')}
+						{this.renderDateTime('birthDate', 'Fecha de nacimiento')}
+						{this.renderSelect('sex', 'Sexo', SEX)}
+						{this.renderTextInput('bloodType', 'Grupo y Factor')}
 						<button type="submit">Guardar</button>
 					</form>
 			</div>;
