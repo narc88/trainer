@@ -1,26 +1,8 @@
 <template name="UserCardTemplate">
-  <div class="thumbnail">
-    <img  class="media-object" 
-              src="http://thesocialmediamonthly.com/wp-content/uploads/2015/08/photo.png" 
-              alt="Foto de perfil"
-              width="50px"/>
-    <div class="caption">
-      <h3>{{title}}</h3>
-      <p>Esto seria mas informacion</p>
-      <div class="btn-group" role="group" aria-label="...">
-        <button type="button" class="btn btn-default btn-sm">
-          <span class="glyphicon glyphicon-th-list"></span>
-        </button>
-        <button type="button" class="btn btn-default btn-sm">
-          <span class="glyphicon glyphicon-ok"></span>
-        </button>
-        <button type="button" class="btn btn-default btn-sm">
-          <span class="glyphicon glyphicon-remove"></span>
-        </button>
-        <button type="button" class="btn btn-default btn-sm">
-          <span class="glyphicon glyphicon-plus"></span>
-        </button>
-      </div>
-    </div>
-  </div>
+  <Avatar
+      src="images/uxceo-128.jpg"
+      size={30}
+  >
+    {{title}}
+  </Avatar>
 </template>

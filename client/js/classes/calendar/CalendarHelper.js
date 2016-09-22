@@ -2,6 +2,7 @@ Template.CalendarTemplate.helpers({
         calendarOptions: {
             // Standard fullcalendar options
             hiddenDays: [ 0 ],
+            height:(document.documentElement.clientHeight/2)+'px',
             slotDuration: '00:30:00',
             minTime: '07:00:00',
             maxTime: '23:00:00',
@@ -31,7 +32,12 @@ Template.CalendarTemplate.helpers({
                 var dayStart = start._d.getDay();
                 var dayEnd = end._d.getDay();
                 var d = new Date();
-                var turns = Turns.find({'frequency' : 'weekly', 'day' : { $gt: dayStart}, 'day' : { $lt: dayEnd} }).fetch();
+                
+                console.log('Day Start'+dayStart);
+                console.log('Day End'+dayEnd);
+
+                //Not called when switching between days, advised to request the whole week.
+                var turns = Turns.find({'frequency' : 'weekly'}).fetch();
 
                 var events = [];
                 
