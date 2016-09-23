@@ -72,6 +72,7 @@ TurnDialog = React.createClass({
 	  		turn.username = Meteor.user().username || Meteor.user().profile.name
 
 	  		Meteor.call('addTurn', turn, function (error, result) {});
+	  		this.handleClose()
 	  	}
   	},
   	changeType(){
@@ -147,12 +148,12 @@ TurnDialog = React.createClass({
 	    const actions = [
 	      <FlatButton
 	        label="Cancel"
-	        primary={true}
+	        secondary={true}
 	        onTouchTap={this.handleClose}
 	      />,
 	      <FlatButton
 	        label="Submit"
-	        primary={true}
+	        secondary={true}
 	        keyboardFocused={true}
 	        onTouchTap={this.handleSubmit}
 	      />,
@@ -176,7 +177,7 @@ TurnDialog = React.createClass({
 		    <div>
 		        <RaisedButton label="Nuevo Turno" onTouchTap={this.handleOpen} />
 		        <Dialog
-		          title="Dialog With Actions"
+		          title="Nuevo Turno"
 		          actions={actions}
 		          modal={false}
 		          open={this.state.open}
