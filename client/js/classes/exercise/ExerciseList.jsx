@@ -41,11 +41,8 @@ ExerciseList = React.createClass({
 												      anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
 												      targetOrigin={{horizontal: 'left', vertical: 'bottom'}}
 												    >
-												      	<MenuItem primaryText="Refresh" />
-												      	<MenuItem primaryText="Send feedback" />
-												      	<MenuItem primaryText="Settings" />
-												      	<MenuItem primaryText="Help" />
-												      	<MenuItem primaryText="Sign out" />
+												      	<MenuItem primaryText="Eliminar" />
+												      	<MenuItem primaryText="Editar" />
 												    </IconMenu>}
 								        primaryText={object.name}
 								        secondaryText={object.description}
