@@ -2,7 +2,7 @@ Template.CalendarTemplate.helpers({
         calendarOptions: {
             // Standard fullcalendar options
             hiddenDays: [ 0 ],
-            height:(document.documentElement.clientHeight/2)+'px',
+            height:(document.documentElement.clientHeight)+'px',
             slotDuration: '00:30:00',
             minTime: '07:00:00',
             maxTime: '23:00:00',
@@ -42,6 +42,7 @@ Template.CalendarTemplate.helpers({
                 var events = [];
                 
                 turns.forEach(function (turn) {
+                    turn.id = turn._id;
                     turn.start = getDayOfWeek(d, turn.day);
                     turn.start.setHours(turn.hour);
                     turn.start.setMinutes(turn.minute);
@@ -60,9 +61,12 @@ Template.CalendarTemplate.helpers({
                 $(this).tooltip({trigger: 'manual', title: Blaze.toHTMLWithData(Template.UserCardTemplate, event) , html: true, container: "body"});
                 $(this).tooltip().tooltip('show');
             },
+            eventRender: function(event, element) {
+                element.replaceWith( React.render(<UserCard user={event} />, element[0]) );
+            },
             eventAfterRender: function (event, element) {   
                 if(event){
-                    Blaze.toHTMLWithData(Template.UserCardTemplate, event);
+                //    React.render(<UserCard/>, element[0]);
                 }
             },
             dayClick:function(date, jsEvent, view){
