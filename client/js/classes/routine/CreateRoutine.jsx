@@ -18,11 +18,17 @@ CreateRoutine = React.createClass({
 	    };
 	},
 	getInitialState: function() {
-    	return {routine_exercises: []};
+    	return {
+    			exercise: {},
+    			addingExercise:false,
+    			routine_exercises: []
+    		};
   	},
-  	selectExercise(exercises){
-  		var routine_exercises =  this.state.routine_exercises.concat(exercises);
-	    this.setState({routine_exercises: routine_exercises});
+  	selectExercise(exercise){
+  		this.setState({
+  						addingExercise: true,
+  						exercise: exercise
+  					});
   	},
   	dragStart: function(e) {
     	this.dragged = e.currentTarget;
@@ -67,15 +73,6 @@ CreateRoutine = React.createClass({
 	    routine_exercises.splice(to, 0, placeholder_exercise);
 	    this.setState({routine_exercises: routine_exercises});
   	},
-  	addNewExercise(){
-  		this.setState({state: 'selecting_exercise'});
-  	},
-  	updateExercise(exercise){
-  		let routine_exercises = this.state.routine_exercises;
-  		let index = lodash.findIndex(routine_exercises, function(o) { return o._id === exercise._id; });
-  		routine_exercises[index] = exercise;
-  		this.setState({routine_exercises: routine_exercises})
-  	},
   	isRoutineValid(){
   		return (this.state.routine_exercises.length > 3);
   	},
@@ -84,6 +81,18 @@ CreateRoutine = React.createClass({
 	  		Meteor.call('addRoutine', routine, function (error, result) {});
 	  	}
   	},
+  	toggleSelectingExercise(){
+  		this.setState({addingExercise: !this.state.addingExercise})
+  	},
+  	handleSubmit(){
+  		var exercises = this.state.routine_exercises;
+  		exercises.push(this.state.exercise);
+  		this.setState({
+  						routine_exercises: routine_exercises,
+  						exercise: {},
+  						addingExercise:false
+  					});
+  	},
 	render() {
 		var viewport_height = (document.documentElement.clientHeight/2)+'px';
 		var style = {height:viewport_height}
@@ -91,12 +100,9 @@ CreateRoutine = React.createClass({
 		var dragStart = this.dragStart;
 		var updateExercise = this.updateExercise;
 		var select_list = '';
-		if(this.state.state === 'selecting_exercise'){
-			select_list = <SelectableExerciseList exercises={this.data.exercises} selectExercise={this.selectExercise}/>
-		}
-
 	    return 	<div>
 		            <div className="exercise-list-scrollable" style={style}>
+		            <ExerciseInfoModal handleSubmit={this.handleSubmit} toggleSelectingExercise={this.toggleSelectingExercise} addingExercise={this.state.addingExercise}/>
 		                <ul className="list-group" onDragOver={this.dragOver}>
 			                {this.state.routine_exercises.map(function(object, i){
 					            return <RoutineExercise key={i} i={i} updateExercise={updateExercise} dragEnd={dragEnd} dragStart={dragStart} exercise={object}/>
@@ -108,7 +114,7 @@ CreateRoutine = React.createClass({
 				        	<span className="glyphicon glyphicon-plus"></span>
 				        	<span className="">	Agregar Ejercicios</span>
 				        </button>
-					    {select_list} 
+					    <SelectableExerciseList exercises={this.data.exercises} selectExercise={this.selectExercise} />
 		            </div>
 		        </div>;
 	}

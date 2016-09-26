@@ -23,7 +23,7 @@ SelectableExerciseList = React.createClass({
 	    this.setState({selected_exercises: selected_exercises});
   	},
   	selectExercise(exercise){
-  		var exercises = [];
+  		this.props.selectExercise(exercise);
   	},
   	removeExerciseFromSelection(exercise){
   		var selected_exercises = this.state.selected_exercises;
@@ -32,17 +32,9 @@ SelectableExerciseList = React.createClass({
 		});
 	    this.setState({selected_exercises: selected_exercises});
   	},
-	submitSelected(){
-		this.props.selectExercise(this.state.selected_exercises);
-		this.setState({selected_exercises: []});
-	},
-	cancelSelected(){
-		this.setState({selected_exercises: []});
-	},
 	render() {
 		let onSelect = this.addExerciseToSelection;
 		let selectExercise = this.selectExercise;
-		let onRemove = this.removeExerciseFromSelection;
 	    return <div>
 	    			<List>
 				      	{this.props.exercises.map(function(object, i){
@@ -52,13 +44,9 @@ SelectableExerciseList = React.createClass({
 								        rightIcon={<IconButton  onTouchTap={() => selectExercise(object)} ><SvgIcons.AvPlaylistAdd /></IconButton>}
 								        primaryText={object.name}
 								        secondaryText={object.description}
-								    >
-								    </ListItem>
+								    ></ListItem>
 			        	})}
 				    </List>
-					    	
-				  	<button type="button" className="btn btn-default" onClick={this.cancelSelected}>Cancelar</button>
-				  	<button type="button" className="btn btn-default" onClick={this.submitSelected}>Agregar</button>
 	            </div>;
 	}
 });

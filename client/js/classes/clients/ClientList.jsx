@@ -46,6 +46,7 @@ ClientList = React.createClass({
 								        primaryText={object.name}
 								        onTouchTap={() => _onListItemSelected(object._id)}
 								        secondaryText={object.description}
+								        
 								    />
 			        	})}
 				    </List>
