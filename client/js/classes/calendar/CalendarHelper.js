@@ -8,6 +8,7 @@ Template.CalendarTemplate.helpers({
             maxTime: '23:00:00',
             allDaySlot: false,
             lang: 'es',
+            editable: true,
             header:{
                 left:   'prev',
                 center: 'agendaWeek, today, agendaDay',
@@ -62,7 +63,7 @@ Template.CalendarTemplate.helpers({
                 $(this).tooltip().tooltip('show');
             },
             eventRender: function(event, element) {
-                element.replaceWith( React.render(<UserCard user={event} />, element[0]) );
+                React.render(<UserCard user={event} />, element[0]);
             },
             eventAfterRender: function (event, element) {   
                 if(event){

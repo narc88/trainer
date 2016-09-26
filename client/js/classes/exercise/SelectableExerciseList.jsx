@@ -1,5 +1,18 @@
 _ = lodash;
 
+
+var {
+    List,
+    ListItem,
+    IconMenu,
+    IconButton,
+    Avatar,
+    MenuItem
+    } = MUI;
+
+var {SvgIcons} = MUI.Libs;
+
+
 SelectableExerciseList = React.createClass({
 	getInitialState: function() {
     	return {selected_exercises: []};
@@ -8,6 +21,9 @@ SelectableExerciseList = React.createClass({
   		var selected_exercises = this.state.selected_exercises;
   		selected_exercises.push(exercise);
 	    this.setState({selected_exercises: selected_exercises});
+  	},
+  	selectExercise(exercise){
+  		var exercises = [];
   	},
   	removeExerciseFromSelection(exercise){
   		var selected_exercises = this.state.selected_exercises;
@@ -18,25 +34,31 @@ SelectableExerciseList = React.createClass({
   	},
 	submitSelected(){
 		this.props.selectExercise(this.state.selected_exercises);
+		this.setState({selected_exercises: []});
 	},
 	cancelSelected(){
 		this.setState({selected_exercises: []});
 	},
 	render() {
 		let onSelect = this.addExerciseToSelection;
+		let selectExercise = this.selectExercise;
 		let onRemove = this.removeExerciseFromSelection;
 	    return <div>
-	    			<ul className="list-group">
-		                {this.props.exercises.map(function(object, i){
-				            return <SelectableExerciseListItem addExerciseToSelection={onSelect} removeExerciseFromSelection={onRemove} exercise={object} key={object._id}/>
-				        })}
-				        <li>
-					    	<div className="btn-group" role="group" aria-label="...">
-							  	<button type="button" className="btn btn-default" onClick={this.cancelSelected}>Cancelar</button>
-							  	<button type="button" className="btn btn-default" onClick={this.submitSelected}>Agregar</button>
-							</div>
-					    </li>
-			        </ul>
+	    			<List>
+				      	{this.props.exercises.map(function(object, i){
+				      		return <ListItem
+				      					key={i}
+								        leftAvatar={<Avatar onTouchTap={() => onSelect(object)} src='http://res.cloudinary.com/db6uq4jy9/image/upload/v1466101331/c2w7b99g3o21chn5bmxb.jpg' />}
+								        rightIcon={<IconButton  onTouchTap={() => selectExercise(object)} ><SvgIcons.AvPlaylistAdd /></IconButton>}
+								        primaryText={object.name}
+								        secondaryText={object.description}
+								    >
+								    </ListItem>
+			        	})}
+				    </List>
+					    	
+				  	<button type="button" className="btn btn-default" onClick={this.cancelSelected}>Cancelar</button>
+				  	<button type="button" className="btn btn-default" onClick={this.submitSelected}>Agregar</button>
 	            </div>;
 	}
 });

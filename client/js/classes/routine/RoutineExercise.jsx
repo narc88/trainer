@@ -8,7 +8,7 @@ RoutineExercise = React.createClass({
 		var series_btn , repetitions_btn , rest_btn;
 		
 		if(this.props.exercise.series > 1){
-			series_btn =<button type="button" className="btn btn-info"  data-toggle="modal" data-target={'#formFor'+this.props.exercise._id} aria-expanded="false" aria-controls={'formFor'+this.props.i}>
+			series_btn =<button type="button" title="Cantidad de Series" className="btn btn-info"  data-toggle="modal" data-target={'#formFor'+this.props.exercise._id} aria-expanded="false" aria-controls={'formFor'+this.props.i}>
 							<span className="glyphicon glyphicon-repeat"></span>
 							<span className="">{this.props.exercise.series}</span>
 						</button>;
@@ -16,7 +16,7 @@ RoutineExercise = React.createClass({
 
 		if(this.props.exercise.type === 'repetitions' && this.props.exercise.repetitions){
 			//Puede haber variaciones en las repeticiones
-			repetitions_btn =<button type="button" className="btn btn-success"  data-toggle="modal" data-target={'#formFor'+this.props.exercise._id} aria-expanded="false" aria-controls={'formFor'+this.props.exercise._id}>
+			repetitions_btn =<button type="button"  title="Cantidad de Repeticiones" className="btn btn-success"  data-toggle="modal" data-target={'#formFor'+this.props.exercise._id} aria-expanded="false" aria-controls={'formFor'+this.props.exercise._id}>
 								<span className="glyphicon glyphicon-refresh"></span>
 								<span className="">{this.props.exercise.repetitions}</span>
 							</button>;
@@ -25,19 +25,19 @@ RoutineExercise = React.createClass({
 			for (var i = 0; i < this.props.exercise.series.length; i++) {
 				repetitions.push( this.props.exercise.series[i].repetitions);
 			}
-			repetitions_btn =<button type="button" className="btn btn-success"  data-toggle="modal" data-target={'#formFor'+this.props.exercise._id} aria-expanded="false" aria-controls={'formFor'+this.props.exercise._id}>
+			repetitions_btn =<button type="button"  title="Cantidad de Repeticiones" className="btn btn-success"  data-toggle="modal" data-target={'#formFor'+this.props.exercise._id} aria-expanded="false" aria-controls={'formFor'+this.props.exercise._id}>
 								<span className="glyphicon glyphicon-refresh"></span>
 								<span className="">{repetitions}</span>
 							</button>;
 		}else if(this.props.exercise.type === 'timed'){
-			repetitions_btn =<button type="button" className="btn btn-success"  data-toggle="modal" data-target={'#formFor'+this.props.exercise._id} aria-expanded="false" aria-controls={'formFor'+this.props.exercise._id}>
+			repetitions_btn =<button type="button"  title="Duracion de cada Serie" className="btn btn-success"  title="Duracion de la Serie" data-toggle="modal" data-target={'#formFor'+this.props.exercise._id} aria-expanded="false" aria-controls={'formFor'+this.props.exercise._id}>
 								<span className="glyphicon glyphicon-hourglass"></span>
 								<span className="">{this.props.exercise.duration}´´</span>
 							</button>;
 		}
 
 		if(this.props.exercise.rest){
-			rest_btn =<button type="button" className="btn btn-danger"  data-toggle="modal" data-target={'#formFor'+this.props.exercise._id} aria-expanded="false" aria-controls={'formFor'+this.props.exercise._id}>
+			rest_btn =<button type="button" className="btn btn-danger"  title="Descanso entre series" data-toggle="modal"  title="Descanso entre Series" data-target={'#formFor'+this.props.exercise._id} aria-expanded="false" aria-controls={'formFor'+this.props.exercise._id}>
 							<span className="glyphicon glyphicon-pause"></span>
 							<span className="">{this.props.exercise.rest+'´´'}</span>
 						</button>;
