@@ -227,3 +227,8 @@ li {
 .fc-event .fc-time{
   display : none;
 }
+
+.form-list-scrollable > div > div > div[overflow]{
+  overflow-y: scroll;
+  position:relative;
+}

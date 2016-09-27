@@ -102,7 +102,7 @@ CreateRoutine = React.createClass({
 		var select_list = '';
 	    return 	<div>
 		            <div className="exercise-list-scrollable" style={style}>
-		            <ExerciseInfoModal handleSubmit={this.handleSubmit} toggleSelectingExercise={this.toggleSelectingExercise} addingExercise={this.state.addingExercise}/>
+		            <ExerciseInfoModal exercise={this.state.exercise} handleSubmit={this.handleSubmit} toggleSelectingExercise={this.toggleSelectingExercise} addingExercise={this.state.addingExercise}/>
 		                <ul className="list-group" onDragOver={this.dragOver}>
 			                {this.state.routine_exercises.map(function(object, i){
 					            return <RoutineExercise key={i} i={i} updateExercise={updateExercise} dragEnd={dragEnd} dragStart={dragStart} exercise={object}/>

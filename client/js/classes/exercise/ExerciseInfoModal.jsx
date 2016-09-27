@@ -9,6 +9,15 @@ var {
 
 var {SvgIcons} = MUI.Libs;
 
+
+var EXERCISE_TYPES = [
+	{'value':'repetitions', 'label':'Repeticiones'},
+	{'value':'staggered', 'label':'Repeticiones Escalonadas'},
+	{'value':'timed', 'label':'Tiempo'},
+	{'value':'circuit', 'label':'Circuito'}
+]
+
+
 ExerciseInfoModal = React.createClass({
   	getInitialState() {
 		return {
@@ -106,7 +115,10 @@ ExerciseInfoModal = React.createClass({
 		new_date.datetime = date;
     	this.setState({data: new_date});
   	},
-  	handleRepetitionChange(event, data){
+  	handleRepetitionsChange(event, data){
+  		var a='';
+  	},
+  	handleSeriesChange(event, data){
   		var a='';
   	},
 	render() {
@@ -127,21 +139,51 @@ ExerciseInfoModal = React.createClass({
 	    return (
 		    <div>
 		        <Dialog
-		          title="Agregando ejercicio"
+		          title={this.props.exercise.name}
 		          actions={actions}
 		          modal={false}
 		          open={this.props.addingExercise}
 		          onRequestClose={this.props.handleClose}
+		          className="form-list-scrollable"
 		        >
-		          	<div className="form-horizontal">
+		          	<div className="form-horizontal" id="exerciseInfoModal">
 						<form ref="exerciseInfoModal">
+							{this.renderSelect('type', 'Tipo', EXERCISE_TYPES)}
 							<Slider
-					          min={0}
+					          min={1}
+					          max={10}
+					          step={1}
+					          description='Cantidad de series'
+					          defaultValue={4}
+					          value={this.state.series}
+					          onChange={this.handleSeriesChange}
+					        />
+							<Slider
+					          min={1}
 					          max={30}
 					          step={1}
-					          defaultValue={4}
-					          value={this.state.seconds}
-					          onChange={this.handleRepetitionChange}
+					          defaultValue={8}
+					          description='Cantidad de repeticiones por serie'
+					          value={this.state.repetitions}
+					          onChange={this.handleRepetitionsChange}
+					        />
+					        <Slider
+					          min={1}
+					          max={120}
+					          step={15}
+					          defaultValue={30}
+					          description='Duracion en segundos de cada serie'
+					          value={this.state.duration}
+					          onChange={this.handleDurationChange}
+					        />
+					        <Slider
+					          min={1}
+					          max={300}
+					          step={15}
+					          defaultValue={90}
+					          description='Descanso en segundos entre cada serie'
+					          value={this.state.rest}
+					          onChange={this.handleRestChange}
 					        />
 							{form_container}
 						</form>
