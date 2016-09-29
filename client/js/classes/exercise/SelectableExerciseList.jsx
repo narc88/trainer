@@ -34,15 +34,20 @@ SelectableExerciseList = React.createClass({
   	},
 	render() {
 		let onSelect = this.addExerciseToSelection;
+		let toggleSelectingExercise = this.props.toggleSelectingExercise;
+		let handleSubmit = this.props.handleSubmit;
+		let addingExercise = this.props.addingExercise;
 		let selectExercise = this.selectExercise;
 	    return <div>
 	    			<List>
 				      	{this.props.exercises.map(function(object, i){
+				      		let dialog = <ExerciseInfoModal exercise={object} handleSubmit={handleSubmit} toggleSelectingExercise={toggleSelectingExercise} addingExercise={addingExercise}/>;
 				      		return <ListItem
 				      					key={i}
 								        leftAvatar={<Avatar onTouchTap={() => onSelect(object)} src='http://res.cloudinary.com/db6uq4jy9/image/upload/v1466101331/c2w7b99g3o21chn5bmxb.jpg' />}
 								        rightIcon={<IconButton  onTouchTap={() => selectExercise(object)} ><SvgIcons.AvPlaylistAdd /></IconButton>}
 								        primaryText={object.name}
+								        nestedItems={[dialog]}
 								        secondaryText={object.description}
 								    ></ListItem>
 			        	})}
