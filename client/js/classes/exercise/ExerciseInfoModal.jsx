@@ -153,8 +153,8 @@ ExerciseInfoModal = React.createClass({
 					          min={1}
 					          max={10}
 					          step={1}
-					          description='Cantidad de series'
-					          defaultValue={4}
+					          description={'Series: '+this.state.series}
+					          defaultValue={this.props.exercise.series}
 					          value={this.state.series}
 					          onChange={this.handleSeriesChange}
 					        />
@@ -162,26 +162,26 @@ ExerciseInfoModal = React.createClass({
 					          min={1}
 					          max={30}
 					          step={1}
-					          defaultValue={8}
-					          description='Cantidad de repeticiones por serie'
+					          defaultValue={this.props.exercise.repetitions}
+					          description={'Repeticiones :'+this.state.repetitions}
 					          value={this.state.repetitions}
 					          onChange={this.handleRepetitionsChange}
 					        />
 					        <Slider
 					          min={1}
 					          max={120}
-					          step={15}
-					          defaultValue={30}
-					          description='Duracion en segundos de cada serie'
+					          step={5}
+					          defaultValue={this.props.exercise.series}
+					          description={'Duracion de cada serie (Segs)'+this.props.exercise.rest}
 					          value={this.state.duration}
 					          onChange={this.handleDurationChange}
 					        />
 					        <Slider
 					          min={1}
 					          max={300}
-					          step={15}
-					          defaultValue={90}
-					          description='Descanso en segundos entre cada serie'
+					          step={10}
+					          defaultValue={this.props.exercise.rest}
+					          description={'Descanso entre series (Segs)'+this.props.exercise.rest}
 					          value={this.state.rest}
 					          onChange={this.handleRestChange}
 					        />
