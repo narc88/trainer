@@ -4,7 +4,7 @@ var {
     RaisedButton,
     FlatButton,
     Slider,
-
+    Chip
     } = MUI;
 
 var {SvgIcons} = MUI.Libs;
@@ -52,39 +52,19 @@ ExerciseInfoModal = React.createClass({
 		var isValid = true;
 		return isValid;
   	},
-  	changeType(){
-  		var data = this.getFormData();
+  	onTypeChange(){
+  		var data = this.state.data;
   		this.setState({
   			data: data
   		});
   	},
-  	getFormData() {
-  		var repetitions = this.refs.repetitions? this.refs.repetitions.value : '';
-  		var duration = this.refs.duration? this.refs.duration.value : '';
-  		var cant_exercises =this.refs.cant_exercises? this.refs.cant_exercises.value : '';
-  		var series =this.refs.series? this.refs.series.value : '';
-		return {
-				//Categoría, duracion, series... Se llenan cuando armas la rutina.
-				series: series,
-				type: this.refs.type.value,
-				explanation: this.refs.explanation.value,
-				repetitions: repetitions,
-				duration: duration,
-				rest:this.refs.rest.value,
-				cant_exercises: cant_exercises
-			};
-  	},
-  	renderTextInput(id, label) {
-		return this.renderField(id,
-								label,
-								<input type="text" className="form-control" id={id} ref={id}/>
-								);
-  	},
-  	renderNumberInput(id, label) {
-		return this.renderField(id,
-								label,
-								<input type="number" pattern="[0-9]*" className="form-control" id={id} ref={id}/>
-								);
+  	handleRequestDelete(){
+  		var data = this.state.data;
+  		data.type = '';
+  		this.setState({
+  			data: data,
+  			changingType : true
+  		});
   	},
 	renderSelect(id, label, values, onChange) {
 		var options = values.map(function(value) {
@@ -104,22 +84,28 @@ ExerciseInfoModal = React.createClass({
 					</div>
 				</div>;
 	},
-	timePickerChange(event, date) {
-		var new_date = this.state.data;
-		new_date.hour = date.getHours();
-		new_date.minute = date.getMinutes();
-    	this.setState({data: new_date});
+	handleDurationChange(event, data){
+  		var new_data = this.state.data;
+  		new_data.duration = data;
+    	this.setState({data: new_data});
   	},
-  	datePickerChange(event, date){
-  		var new_date = this.state.data;
-		new_date.datetime = date;
-    	this.setState({data: new_date});
+  	handleRestChange(event, data){
+  		var new_data = this.state.data;
+  		new_data.rest = data;
+    	this.setState({data: new_data});
   	},
   	handleRepetitionsChange(event, data){
-  		var a='';
+  		var new_data = this.state.data;
+  		new_data.repetitions = data;
+    	this.setState({data: new_data});
   	},
   	handleSeriesChange(event, data){
-  		var a='';
+  		var new_data = this.state.data;
+  		new_data.series = data;
+    	this.setState({data: new_data});
+  	},
+  	componentDidMount(){
+
   	},
 	render() {
 	    const actions = [
@@ -135,7 +121,68 @@ ExerciseInfoModal = React.createClass({
 	        onTouchTap={this.props.handleSubmit}
 	      />,
 	    ];
-	    var form_container = '';
+	    var formContainer = '';
+	    let exerciseTypeTpl = ''
+	    if (this.state.changingType) {
+	    	exerciseTypeTpl = 	<SelectField value={this.state.data.type} onChange={this.onTypeChange}>
+						          	{values.map(function(value) {
+									 	return <MenuItem key={value.value} value={value.value} primaryText={value.label} />
+									})}
+						        </SelectField>;
+	    }else{
+	    	exerciseTypeTpl = 	<Chip
+						          onRequestDelete={this.handleRequestDelete}
+						        >
+						          	{ 	_.find(EXERCISE_TYPES, function(obj) {
+									    	return obj.value === this.props.exercise.type;
+										}).label
+						      		}
+						        </Chip>;
+	    }
+	    if(this.state.data.type){
+	    	formContainer = <div>
+	    						<Slider
+						          min={1}
+						          max={10}
+						          step={1}
+						          description={'Series: '+this.state.series}
+						          defaultValue={this.props.exercise.series}
+						          value={this.state.series}
+						          onChange={this.handleSeriesChange}
+						        />
+								<Slider
+						          min={1}
+						          max={30}
+						          step={1}
+						          defaultValue={this.props.exercise.repetitions}
+						          description={'Repeticiones : '+this.state.repetitions}
+						          value={this.state.repetitions}
+						          onChange={this.handleRepetitionsChange}
+						        />
+	    					</div>;
+	    }else{
+	    	formContainer = <div>
+	    						<Slider
+						          min={1}
+						          max={120}
+						          step={5}
+						          defaultValue={this.props.exercise.duration}
+						          description={'Duracion de cada serie (Segs): '+this.props.exercise.duration}
+						          value={this.state.duration}
+						          onChange={this.handleDurationChange}
+						        />
+						        <Slider
+						          min={1}
+						          max={300}
+						          step={10}
+						          defaultValue={this.props.exercise.rest}
+						          description={'Descanso entre series (Segs): '+this.props.exercise.rest}
+						          value={this.state.rest}
+						          onChange={this.handleRestChange}
+						        />
+	    					</div>;
+
+	    }
 	    return (
 		    <div>
 		        <Dialog
@@ -148,44 +195,8 @@ ExerciseInfoModal = React.createClass({
 		        >
 		          	<div className="form-horizontal" id="exerciseInfoModal">
 						<form ref="exerciseInfoModal">
-							{this.renderSelect('type', 'Tipo', EXERCISE_TYPES)}
-							<Slider
-					          min={1}
-					          max={10}
-					          step={1}
-					          description={'Series: '+this.state.series}
-					          defaultValue={this.props.exercise.series}
-					          value={this.state.series}
-					          onChange={this.handleSeriesChange}
-					        />
-							<Slider
-					          min={1}
-					          max={30}
-					          step={1}
-					          defaultValue={this.props.exercise.repetitions}
-					          description={'Repeticiones :'+this.state.repetitions}
-					          value={this.state.repetitions}
-					          onChange={this.handleRepetitionsChange}
-					        />
-					        <Slider
-					          min={1}
-					          max={120}
-					          step={5}
-					          defaultValue={this.props.exercise.series}
-					          description={'Duracion de cada serie (Segs)'+this.props.exercise.rest}
-					          value={this.state.duration}
-					          onChange={this.handleDurationChange}
-					        />
-					        <Slider
-					          min={1}
-					          max={300}
-					          step={10}
-					          defaultValue={this.props.exercise.rest}
-					          description={'Descanso entre series (Segs)'+this.props.exercise.rest}
-					          value={this.state.rest}
-					          onChange={this.handleRestChange}
-					        />
-							{form_container}
+							{exerciseTypeTpl}
+							{formContainer}
 						</form>
 					</div>
 		        </Dialog>

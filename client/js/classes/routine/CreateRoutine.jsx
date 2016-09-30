@@ -109,10 +109,6 @@ CreateRoutine = React.createClass({
 				        </ul> 
 		            </div>
 		            <div className="exercise-list-scrollable" style={style}>
-		                <button className="col-xs-12 col-sm-6 col-md-3 list-group-item clickable" onClick={this.addNewExercise}>
-				        	<span className="glyphicon glyphicon-plus"></span>
-				        	<span className="">	Agregar Ejercicios</span>
-				        </button>
 					    <SelectableExerciseList exercises={this.data.exercises} selectExercise={this.selectExercise} handleSubmit={this.handleSubmit} toggleSelectingExercise={this.toggleSelectingExercise} addingExercise={this.state.addingExercise}/>
 		            </div>
 		        </div>;
