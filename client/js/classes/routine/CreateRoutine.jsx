@@ -84,12 +84,11 @@ CreateRoutine = React.createClass({
   	toggleSelectingExercise(){
   		this.setState({addingExercise: !this.state.addingExercise})
   	},
-  	handleSubmit(){
+  	handleSubmit(exercise){
   		var exercises = this.state.routine_exercises;
-  		exercises.push(this.state.exercise);
+  		exercises.push(exercise);
   		this.setState({
   						routine_exercises: routine_exercises,
-  						exercise: {},
   						addingExercise:false
   					});
   	},

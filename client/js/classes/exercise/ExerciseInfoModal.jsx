@@ -54,8 +54,9 @@ ExerciseInfoModal = React.createClass({
 		var isValid = true;
 		return isValid;
   	},
-  	onTypeChange(){
+  	onTypeChange(data, index, value){
   		var data = this.state.data;
+  		data.type = value;
   		this.setState({
   			data: data
   		});
@@ -103,7 +104,10 @@ ExerciseInfoModal = React.createClass({
   	},
   	handleSeriesChange(event, data){
   		var new_data = this.state.data;
-  		new_data.series = data;
+  		new_data.totalSeries = data;
+  		if(this.state.data.type === 'staggered'){
+  			//Agregar mock series object
+  		}
     	this.setState({data: new_data});
   	},
   	componentDidMount(){
@@ -124,7 +128,7 @@ ExerciseInfoModal = React.createClass({
 	        onTouchTap={this.props.handleSubmit}
 	      />,
 	    ];
-	    let seriesSlider = '',repetitionsSlider ='',durationSlider='',restSlider='';
+	    let seriesSlider = '',repetitionsSlider ='',durationSlider='',restSlider='', seriesDetails=[];
 	    let exerciseTypeTpl = '';
 	    let exercise = this.props.exercise;
 
@@ -135,14 +139,15 @@ ExerciseInfoModal = React.createClass({
 									})}
 						        </SelectField>;
 	    }else{
-	    	exerciseTypeTpl = 	<Chip
-						          onRequestDelete={this.handleRequestDelete}
+	    	exerciseTypeTpl = 	<div
+						          onTouchTap={this.handleRequestDelete}
 						        >
 						          	{ 	_.find(EXERCISE_TYPES, function(obj) {
 									    	return obj.value === exercise.type;
 										}).label
 						      		}
-						        </Chip>;
+						      		<span> (Change Type) </span>
+						        </div>;
 	    }
 
 	    if(this.state.data.type !== 'circuit'){
@@ -150,9 +155,9 @@ ExerciseInfoModal = React.createClass({
 					          min={1}
 					          max={10}
 					          step={1}
-					          description={'Series: '+(this.state.series || this.props.exercise.series)}
+					          description={'Series: '+(this.state.data.totalSeries || this.props.exercise.series)}
 					          defaultValue={parseInt(this.props.exercise.series)}
-					          value={this.state.series}
+					          value={this.state.data.totalSeries}
 					          onChange={this.handleSeriesChange}
 					        />;
 	    }
@@ -163,8 +168,8 @@ ExerciseInfoModal = React.createClass({
 						          max={30}
 						          step={1}
 						          defaultValue={parseInt(this.props.exercise.repetitions)}
-						          description={'Repeticiones : '+(this.state.repetitions || this.props.exercise.repetitions)}
-						          value={this.state.repetitions}
+						          description={'Repeticiones : '+(this.state.data.repetitions || this.props.exercise.repetitions)}
+						          value={this.state.data.repetitions}
 						          onChange={this.handleRepetitionsChange}
 						        />;
 	    }
@@ -175,22 +180,38 @@ ExerciseInfoModal = React.createClass({
 						          max={120}
 						          step={5}
 						          defaultValue={parseInt(this.props.exercise.duration)}
-						          description={'Duracion de cada serie (Segs): '+(this.state.duration || this.props.exercise.duration)}
-						          value={this.state.duration}
+						          description={'Duracion de cada serie (Segs): '+(this.state.data.duration || this.props.exercise.duration)}
+						          value={this.state.data.duration}
 						          onChange={this.handleDurationChange}
 						        />;
 	    }
 
+	    if(this.state.data.type === 'staggered'){
+	    	let tempSerie = {
+	    		repetitions : 0
+	    	};
+
+			_.times( this.state.data.totalSeries , (index) => {
+			  	seriesDetails.push(<Slider
+				          min={1}
+				          max={30}
+				          step={1}
+				          description={'Reps. Serie nº '+{index}+' : '+(this.state.series[index].repetitions)}
+				          value={this.state.data.series[index].repetitions}
+				          onChange={this.handleRepetitionsChange}
+				        />);
+			});
+		}
 	   	
-		restSlider =<Slider
-			          min={1}
-			          max={300}
-			          step={10}
-			          defaultValue={parseInt(this.props.exercise.rest)}
-			          description={'Descanso entre series (Segs): '+(this.state.rest || this.props.exercise.rest)}
-			          value={this.state.rest}
-			          onChange={this.handleRestChange}
-			        />;
+		restSlider =	<Slider
+				          min={1}
+				          max={300}
+				          step={10}
+				          defaultValue={parseInt(this.props.exercise.rest)}
+				          description={'Descanso entre series (Segs): '+(this.state.data.rest || this.props.exercise.rest)}
+				          value={this.state.data.rest}
+				          onChange={this.handleRestChange}
+				        />;
     	return <div>
 			        <Dialog
 			          title={this.props.exercise.name}
@@ -204,6 +225,7 @@ ExerciseInfoModal = React.createClass({
 							<form ref="exerciseInfoModal">
 								{exerciseTypeTpl}
 								{seriesSlider}
+								{seriesDetails}
 								{repetitionsSlider}
 								{durationSlider}
 								{restSlider}
