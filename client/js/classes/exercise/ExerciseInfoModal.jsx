@@ -57,6 +57,14 @@ ExerciseInfoModal = React.createClass({
   	onTypeChange(data, index, value){
   		var data = this.state.data;
   		data.type = value;
+  		if(data.type === 'staggered'){
+  			let tempSerie = {
+	    		repetitions : 0
+	    	};
+  			for (var i = 0; i < data.totalSeries; i++) {
+  				data.series[i] = tempSerie;
+  			}
+  		}
   		this.setState({
   			data: data
   		});
@@ -106,13 +114,21 @@ ExerciseInfoModal = React.createClass({
   		var new_data = this.state.data;
   		new_data.totalSeries = data;
   		if(this.state.data.type === 'staggered'){
-  			//Agregar mock series object
+  			let tempSerie = {
+	    		repetitions : 0
+	    	};
+  			for (var i = 0; i < new_data.totalSeries.length; i++) {
+  				new_data.series[i] = tempSerie;
+  			}
   		}
     	this.setState({data: new_data});
   	},
+  	handleSerieDataChange(index, data){
+  		var new_data = this.state.data;
+  		new_data.series[index] = data;
+    	this.setState({data: new_data});
+  	},
   	componentDidMount(){
-  		var data = this.props.exercise;
-  		this.setState({data:data})
   	},
 	render() {
 	    const actions = [
@@ -186,21 +202,9 @@ ExerciseInfoModal = React.createClass({
 						        />;
 	    }
 
-	    if(this.state.data.type === 'staggered'){
-	    	let tempSerie = {
-	    		repetitions : 0
-	    	};
-
-			_.times( this.state.data.totalSeries , (index) => {
-			  	seriesDetails.push(<Slider
-				          min={1}
-				          max={30}
-				          step={1}
-				          description={'Reps. Serie nº '+{index}+' : '+(this.state.series[index].repetitions)}
-				          value={this.state.data.series[index].repetitions}
-				          onChange={this.handleRepetitionsChange}
-				        />);
-			});
+	    if(this.state.data.type === 'staggered' && this.state.data.totalSeries > 0){
+	    	//METER UN ELEMENTO NUEVO QUE TENGA EL SELECTOR DE REPS POR SERIE O SELECTOR DE EJRCICIOS PARA CIRCUITO
+	    	<SeriesBuilder/>
 		}
 	   	
 		restSlider =	<Slider
