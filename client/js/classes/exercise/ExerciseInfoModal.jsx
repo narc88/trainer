@@ -57,15 +57,18 @@ ExerciseInfoModal = React.createClass({
   	onTypeChange(data, index, value){
   		var data = this.state.data;
   		data.type = value;
+  		this.updateSeries(data);
+  	},
+  	updateSeries( data ){
   		if(data.type === 'staggered'){
-  			let tempSerie = {
-	    		repetitions : 0
-	    	};
-	    	let total = this.state.data.totalSeries || this.props.exercise.totalSeries;
+  			data.totalSeries = this.state.data.totalSeries || this.props.exercise.totalSeries;
 	    	let series = [];
-  			for (var i = 0; i < total; i++) {
-  				series[i] = tempSerie;
+  			for (var i = 0; i < data.totalSeries; i++) {
+  				series[i] = {
+					    		repetitions : 0
+					    	}
   			}
+
   			data.series = series;
   		}
   		this.setState({
@@ -116,11 +119,11 @@ ExerciseInfoModal = React.createClass({
   	handleSeriesChange(event, data){
   		var new_data = this.state.data;
   		new_data.totalSeries = data;
-    	this.setState({data: new_data});
+    	this.updateSeries( new_data );
   	},
-  	handleSerieDataChange(index, data){
+  	handleSerieDataChange(data, index){
   		var new_data = this.state.data;
-  		new_data.series[index] = data;
+  		new_data.series[index].repetitions = data;
     	this.setState({data: new_data});
   	},
   	componentDidMount(){
@@ -198,8 +201,11 @@ ExerciseInfoModal = React.createClass({
 	    }
 
 	    if(this.state.data.type === 'staggered' && this.state.data.totalSeries > 0){
-	    	//METER UN ELEMENTO NUEVO QUE TENGA EL SELECTOR DE REPS POR SERIE O SELECTOR DE EJRCICIOS PARA CIRCUITO
-	    	seriesDetails = <SeriesBuilder series={this.state.data.series} totalSeries={this.state.data.totalSeries}/>
+	    	seriesDetails = <SeriesBuilder handleSerieDataChange={this.handleSerieDataChange} series={this.state.data.series} totalSeries={this.state.data.totalSeries}/>
+		}
+
+		if(this.state.data.type === 'circuit'){
+	    	seriesDetails = <CircuitBuilder series={this.state.data.series} />
 		}
 	   	
 		restSlider =	<Slider
@@ -219,6 +225,7 @@ ExerciseInfoModal = React.createClass({
 			          open={this.props.addingExercise}
 			          onRequestClose={this.props.handleClose}
 			          className="form-list-scrollable"
+			          autoScrollBodyContent={true}
 			        >
 			          	<div className="form-horizontal" id="exerciseInfoModal">
 							<form ref="exerciseInfoModal">
