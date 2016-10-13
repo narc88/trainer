@@ -27,34 +27,28 @@ SeriesBuilder = React.createClass({
 			  }
   	},
   	handleSeriesChange(event, data){
-  		var new_data = this.state.data;
-  		new_data.totalSeries = data;
-  		if(this.state.data.type === 'staggered'){
-  			let tempSerie = {
-	    		repetitions : 0
-	    	};
-  			for (var i = 0; i < new_data.totalSeries.length; i++) {
-  				new_data.series[i] = tempSerie;
-  			}
-  		}
-    	this.setState({data: new_data});
+  		var series = this.state.series;
+  		series[index].repetitions = data;
+    	this.setState({series: series});
   	},
 	render() {
 	    let seriesDetails = [];
 	    let num_series = 0;
-    	if(this.props.series){
-    		num_series = this.props.series.length;
-    	}
-		_.times( num_series , (index) => {
-			seriesDetails.push(<Slider
-		          min={1}
-		          max={30}
-		          step={1}
-		          description={'Reps. Serie nº '+{index}+' : '+(this.state.series[index].repetitions)}
-		          value={this.state.data.series[index].repetitions}
-		          onChange={this.handleSerieDataChange.bind(index, this.state.data.series[index])}
-		        />);	
-		});
+	    let handleSeriesChange = this.handleSeriesChange;
+    	if(this.props.totalSeries){
+    		num_series = this.props.totalSeries;
+    	
+			_.times( num_series , (current, index) => {
+				seriesDetails.push(<Slider
+			          min={1}
+			          max={30}
+			          step={1}
+			          description={'Reps. Serie nº '+{index}+' :PORONGA'}
+			          onChange={handleSeriesChange.bind(index)}
+			        />);	
+			});
+
+		}
 		
     	return <div>
 			        {seriesDetails}
