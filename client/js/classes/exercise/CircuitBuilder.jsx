@@ -22,8 +22,24 @@ CircuitBuilder = React.createClass({
   	selectExercises(){
   		this.setState({addingExercises: !this.state.addingExercises})
   	},
-	render() {
-	    let seriesDetails = [];
+  	submitSelection(){
+  		this.props.submitExercise(this.state.selected_exercises);
+  	},
+  	pickExercise(exercise){
+  		let exercises = this.state.selected_exercises;
+  		let index_.findIndex(users, function(o) { return o.user == 'barney'; });
+  		if(index > 0){
+  			exercises = _.remove(exercises, function(n) {
+			  return n._id === exercise._id;
+			});
+  		}else{
+  			exercises.push(exercise);
+  		}
+
+  		this.setState({'selected_exercises':exercises})
+  		
+  	},
+	render() {;
 	    let num_series = 0;
 	    let handleSeriesChange = this.props.handleSerieDataChange;
 	    let series = this.props.series;
