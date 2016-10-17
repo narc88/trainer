@@ -34,12 +34,19 @@ CircuitBuilder = React.createClass({
   	selectExercises(){
   		this.setState({addingExercises: !this.state.addingExercises})
   	},
+  	stopSelectingExercises(){
+  		this.setState({addingExercises: false})
+  	},
   	submitSelection(){
-  		this.props.submitExercise(this.state.selected_exercises);
+  		this.stopSelectingExercises();
+  		this.props.submitExercises(this.state.selected_exercises);
+  	},
+  	isSelected(exercise){
+  		return !_.findIndex( this.state.selected_exercises, function(o) { return o._id == exercise._id; }) < 0;
   	},
   	togglePickExercise(exercise){
   		let exercises = this.state.selected_exercises;
-  		let index = _.findIndex(users, function(o) { return o._id == exercise._id; });
+  		let index = _.findIndex(exercises, function(o) { return o._id == exercise._id; });
   		if(index > 0){
   			exercises = _.remove(exercises, function(n) {
 			  return n._id === exercise._id;
@@ -51,29 +58,16 @@ CircuitBuilder = React.createClass({
   		this.setState({'selected_exercises':exercises})
   		
   	},
+  	validSelection(){
+  		return (this.state.selected_exercises.length === this.props.totalSeries);
+  	},
 	render() {;
 		let seriesDetails = [];
 	    let num_series = 0;
 	    let handleSeriesChange = this.props.handleSerieDataChange;
 	    let togglePickExercise = this.togglePickExercise;
 	    let series = this.props.series;
-    	if(series && this.props.totalSeries && series.length === this.props.totalSeries){
-    		num_series = this.props.totalSeries;
-    	
-			_.times( num_series , (index) => {
-				seriesDetails.push(<CircuitExercise
-			          min = {1}
-			          max = {30}
-			          key = {index}
-			          step = {1}
-			          index = {index}
-			          handleSeriesChange = {handleSeriesChange}
-			          value = {series[index].repetitions}
-			        />);	
-			});
-
-		}
-		
+	    let isSelected = this.isSelected;		
     	return <div>
     				<FlatButton
 				        label="Seleccionar Ejercicios"
@@ -82,17 +76,18 @@ CircuitBuilder = React.createClass({
 				    />
 				    {seriesDetails}
 				    <Dialog
-			          title='Seleccionar Ejercicios'
+			          title={'Seleccionar Ejercicios ('+ this.state.selected_exercises.length +' de '+ this.props.totalSeries +')'}
 			          actions={<FlatButton
 						        label="Cancelar"
 						        secondary={true}
-						        onTouchTap={this.props.toggleSelectingExercise}
+						        onTouchTap={this.stopSelectingExercises}
 						      />,
 						      <FlatButton
 						        label="Listo"
+						        disabled = {this.validSelection}
 						        secondary={true}
 						        keyboardFocused={true}
-						        onTouchTap={this.props.handleSubmit}
+						        onTouchTap={this.submitSelection}
 						      />}
 			          modal={false}
 			          open={this.state.addingExercises}
@@ -102,10 +97,14 @@ CircuitBuilder = React.createClass({
 			        >
 			          	<List>
 					      	{this.data.exercises.map(function(object, i){
+					      		let icon = (isSelected(object))? <SvgIcons.ActionDone /> : <SvgIcons.AvPlaylistAdd />;
 					      		return <ListItem
-									        leftAvatar={<Avatar onTouchTap={() => togglePickExercise(object)} src='http://res.cloudinary.com/db6uq4jy9/image/upload/v1466101331/c2w7b99g3o21chn5bmxb.jpg' />}
+									        leftAvatar={<Avatar src='http://res.cloudinary.com/db6uq4jy9/image/upload/v1466101331/c2w7b99g3o21chn5bmxb.jpg' />}
 									        primaryText={object.name}
+									        key={i}
+									        onTouchTap = {() => togglePickExercise(object)}
 									        secondaryText={object.description}
+									        rightIcon={icon}
 									    >
 									    </ListItem>
 				        	})}

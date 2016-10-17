@@ -101,6 +101,11 @@ ExerciseInfoModal = React.createClass({
 					</div>
 				</div>;
 	},
+	submitExercises(exercises){
+		var new_data = this.state.data;
+  		new_data.series = exercises;
+    	this.setState({data: new_data});
+	},
 	handleDurationChange(event, data){
   		var new_data = this.state.data;
   		new_data.duration = data;
@@ -204,7 +209,7 @@ ExerciseInfoModal = React.createClass({
 	    	seriesDetails = <SeriesBuilder handleSerieDataChange={this.handleSerieDataChange} series={this.state.data.series} totalSeries={this.state.data.totalSeries}/>
 		}
 
-		if(this.state.data.type === 'circuit'){
+		if(this.state.data.type === 'circuit' && this.state.data.totalSeries > 0){
 	    	seriesDetails = <CircuitBuilder series={this.state.data.series} totalSeries={this.state.data.totalSeries}/>
 		}
 	   	

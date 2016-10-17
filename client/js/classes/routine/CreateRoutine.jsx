@@ -98,8 +98,8 @@ CreateRoutine = React.createClass({
 		var dragEnd = this.dragEnd;
 		var dragStart = this.dragStart;
 		var updateExercise = this.updateExercise;
-
 		var select_list = '';
+		
 	    return 	<div>
 		            <div className="exercise-list-scrollable" style={style}>
 		                <ul className="list-group" onDragOver={this.dragOver}>
