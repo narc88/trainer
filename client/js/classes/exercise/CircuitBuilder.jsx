@@ -6,28 +6,40 @@ var {
     FlatButton,
     Slider,
     Chip,
-    MenuItem
+    List,
+    ListItem,
+    MenuItem,
+    Avatar
     } = MUI;
 
 var {SvgIcons} = MUI.Libs;
 
 
 CircuitBuilder = React.createClass({
+  	mixins: [ReactMeteorData],
   	getInitialState() {
 		return {
 				selected_exercises : [],
 				addingExercises:false
 			  }
   	},
+	getMeteorData() {
+		let subscription = Meteor.subscribe("exercises");
+
+	    return {
+	    	isLoading: !subscription.ready(),
+	      	exercises: Exercises.find({}, { sort: { createdAt: -1 } }).fetch(),
+	    };
+	},
   	selectExercises(){
   		this.setState({addingExercises: !this.state.addingExercises})
   	},
   	submitSelection(){
   		this.props.submitExercise(this.state.selected_exercises);
   	},
-  	pickExercise(exercise){
+  	togglePickExercise(exercise){
   		let exercises = this.state.selected_exercises;
-  		let index_.findIndex(users, function(o) { return o.user == 'barney'; });
+  		let index = _.findIndex(users, function(o) { return o._id == exercise._id; });
   		if(index > 0){
   			exercises = _.remove(exercises, function(n) {
 			  return n._id === exercise._id;
@@ -40,14 +52,16 @@ CircuitBuilder = React.createClass({
   		
   	},
 	render() {;
+		let seriesDetails = [];
 	    let num_series = 0;
 	    let handleSeriesChange = this.props.handleSerieDataChange;
+	    let togglePickExercise = this.togglePickExercise;
 	    let series = this.props.series;
     	if(series && this.props.totalSeries && series.length === this.props.totalSeries){
     		num_series = this.props.totalSeries;
     	
 			_.times( num_series , (index) => {
-				seriesDetails.push(<SerieSliderBuilder
+				seriesDetails.push(<CircuitExercise
 			          min = {1}
 			          max = {30}
 			          key = {index}
@@ -86,16 +100,16 @@ CircuitBuilder = React.createClass({
 			          className="form-list-scrollable"
 			          autoScrollBodyContent={true}
 			        >
-			          	<div className="form-horizontal" id="exerciseInfoModal">
-							<form ref="exerciseInfoModal">
-								{exerciseTypeTpl}
-								{seriesSlider}
-								{seriesDetails}
-								{repetitionsSlider}
-								{durationSlider}
-								{restSlider}
-							</form>
-						</div>
+			          	<List>
+					      	{this.data.exercises.map(function(object, i){
+					      		return <ListItem
+									        leftAvatar={<Avatar onTouchTap={() => togglePickExercise(object)} src='http://res.cloudinary.com/db6uq4jy9/image/upload/v1466101331/c2w7b99g3o21chn5bmxb.jpg' />}
+									        primaryText={object.name}
+									        secondaryText={object.description}
+									    >
+									    </ListItem>
+				        	})}
+					    </List>
 			        </Dialog>
 			    </div>;
 	}
