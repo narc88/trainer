@@ -131,6 +131,9 @@ ExerciseInfoModal = React.createClass({
   		new_data.series[index].repetitions = data;
     	this.setState({data: new_data});
   	},
+  	handleSubmit(){
+  		this.props.handleSubmit(this.state.data);
+  	},
   	componentDidMount(){
   	},
 	render() {
@@ -144,7 +147,7 @@ ExerciseInfoModal = React.createClass({
 	        label="Listo"
 	        secondary={true}
 	        keyboardFocused={true}
-	        onTouchTap={this.props.handleSubmit}
+	        onTouchTap={this.handleSubmit}
 	      />,
 	    ];
 	    let seriesSlider = '',repetitionsSlider ='',durationSlider='',restSlider='', seriesDetails=[];

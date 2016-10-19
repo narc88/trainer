@@ -85,6 +85,7 @@ CreateRoutine = React.createClass({
   		this.setState({addingExercise: !this.state.addingExercise})
   	},
   	handleSubmit(exercise){
+  		let filledExercise = _.assignIn(this.state.exercise, [exercise])
   		var exercises = this.state.routine_exercises;
   		exercises.push(exercise);
   		this.setState({
