@@ -14,6 +14,7 @@ var {
 
 var {SvgIcons} = MUI.Libs;
 
+var {Colors} = MUI.Styles;
 
 CircuitBuilder = React.createClass({
   	mixins: [ReactMeteorData],
@@ -39,18 +40,16 @@ CircuitBuilder = React.createClass({
   	},
   	submitSelection(){
   		this.stopSelectingExercises();
-  		this.props.submitExercises(this.state.selected_exercises);
+  		//this.props.submitExercises(this.state.selected_exercises);
   	},
   	isSelected(exercise){
-  		return !_.findIndex( this.state.selected_exercises, function(o) { return o._id == exercise._id; }) < 0;
+  		return !(_.findIndex( this.state.selected_exercises, function(o) { return o._id == exercise._id; }) < 0);
   	},
   	togglePickExercise(exercise){
   		let exercises = this.state.selected_exercises;
   		let index = _.findIndex(exercises, function(o) { return o._id == exercise._id; });
-  		if(index > 0){
-  			exercises = _.remove(exercises, function(n) {
-			  return n._id === exercise._id;
-			});
+  		if(index >= 0){
+  			exercises.splice(index, 1);
   		}else{
   			exercises.push(exercise);
   		}
@@ -59,7 +58,7 @@ CircuitBuilder = React.createClass({
   		
   	},
   	validSelection(){
-  		return (this.state.selected_exercises.length === this.props.totalSeries);
+  		return !(this.state.selected_exercises.length === this.props.totalSeries);
   	},
 	render() {;
 		let seriesDetails = [];
@@ -67,7 +66,18 @@ CircuitBuilder = React.createClass({
 	    let handleSeriesChange = this.props.handleSerieDataChange;
 	    let togglePickExercise = this.togglePickExercise;
 	    let series = this.props.series;
-	    let isSelected = this.isSelected;		
+	    let isSelected = this.isSelected;
+	    seriesDetails = <List>
+					      	{this.state.selected_exercises.map(function(object, i){
+					      		return <ListItem
+									        leftAvatar={<Avatar src='http://res.cloudinary.com/db6uq4jy9/image/upload/v1466101331/c2w7b99g3o21chn5bmxb.jpg' />}
+									        primaryText={object.name}
+									        key={i}
+									        secondaryText={object.description}
+									    >
+									    </ListItem>
+				        	})}
+					    </List>	
     	return <div>
     				<FlatButton
 				        label="Seleccionar Ejercicios"
@@ -84,7 +94,7 @@ CircuitBuilder = React.createClass({
 						      />,
 						      <FlatButton
 						        label="Listo"
-						        disabled = {this.validSelection}
+						        disabled = {this.validSelection()}
 						        secondary={true}
 						        keyboardFocused={true}
 						        onTouchTap={this.submitSelection}
@@ -97,14 +107,15 @@ CircuitBuilder = React.createClass({
 			        >
 			          	<List>
 					      	{this.data.exercises.map(function(object, i){
-					      		let icon = (isSelected(object))? <SvgIcons.ActionDone /> : <SvgIcons.AvPlaylistAdd />;
+					      		let selectedColor = isSelected(object)? Colors.green400: console.log('No Selected');
 					      		return <ListItem
 									        leftAvatar={<Avatar src='http://res.cloudinary.com/db6uq4jy9/image/upload/v1466101331/c2w7b99g3o21chn5bmxb.jpg' />}
 									        primaryText={object.name}
+									        style={{'backgroundColor': selectedColor}}
 									        key={i}
 									        onTouchTap = {() => togglePickExercise(object)}
 									        secondaryText={object.description}
-									        rightIcon={icon}
+									        rightIcon={isSelected(object)? <SvgIcons.ActionDone /> : <SvgIcons.AvPlaylistAdd />}
 									    >
 									    </ListItem>
 				        	})}

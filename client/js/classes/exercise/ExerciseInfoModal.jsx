@@ -210,7 +210,7 @@ ExerciseInfoModal = React.createClass({
 		}
 
 		if(this.state.data.type === 'circuit' && this.state.data.totalSeries > 0){
-	    	seriesDetails = <CircuitBuilder series={this.state.data.series} totalSeries={this.state.data.totalSeries}/>
+	    	seriesDetails = <CircuitBuilder series={this.state.data.series} submitExercises={this.submitExercises} totalSeries={this.state.data.totalSeries}/>
 		}
 	   	
 		restSlider =	<Slider

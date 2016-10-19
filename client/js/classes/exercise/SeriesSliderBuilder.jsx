@@ -15,19 +15,19 @@ var {SvgIcons} = MUI.Libs;
 SerieSliderBuilder = React.createClass({
   	getInitialState() {
 		return {
-				series : []
+				data : {}
 			  }
   	},
-  	handleSeriesChange(data){
+  	handleSeriesChange(eevent, data){
   		this.props.handleSeriesChange(data, this.props.index)
   	},
-	render() {
+	 render() {
 	    return <Slider
 		          min={this.props.min}
 		          max={this.props.max}
 		          step={this.props.step}
-		          defaultValue={this.props.min}
-		          description={'Repeticiones serie '+this.props.index+': '+(this.state.data.duration || this.props.exercise.duration)}
+		          defaultValue={this.props.default}
+		          description={'Repeticiones serie '+(this.props.index+1)+': '+(this.state.data.value || this.props.value)}
 		          onChange={this.handleSeriesChange}
 		        />;
 	}
