@@ -45,11 +45,13 @@ RoutineExercise = React.createClass({
 								})}				
 							</button>
 		}else if(this.props.exercise.type === 'circuit'){
-			circuit_exercises = <ul>
-									{this.props.exercise.series.map(function(serie) {
-										return <li><span className="">{' ' + serie.name}</span></li>
-									})}
-								</ul>	
+			circuit_exercises = <div className="col-xs-12 col-sm-12 col-md-12">
+									<ul>
+										{this.props.exercise.series.map(function(serie) {
+											return <li><span className="">{' ' + serie.name}</span></li>
+										})}
+									</ul>
+								</div>;	
 		}
 
 		if(this.props.exercise.rest){
