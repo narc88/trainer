@@ -90,7 +90,8 @@ CreateRoutine = React.createClass({
   		exercises.push(filledExercise);
   		this.setState({
   						routine_exercises: exercises,
-  						addingExercise:false
+  						addingExercise:false,
+  						exercise:{}
   					});
   	},
 	render() {

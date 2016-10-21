@@ -40,7 +40,7 @@ CircuitBuilder = React.createClass({
   	},
   	submitSelection(){
   		this.stopSelectingExercises();
-  		//this.props.submitExercises(this.state.selected_exercises);
+  		this.props.submitExercises(this.state.selected_exercises);
   	},
   	isSelected(exercise){
   		return !(_.findIndex( this.state.selected_exercises, function(o) { return o._id == exercise._id; }) < 0);

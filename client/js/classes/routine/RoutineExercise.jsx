@@ -1,11 +1,14 @@
 
+var {SvgIcons} = MUI.Libs;
+
+
 var placeholder = document.createElement("li");
 placeholder.className = "placeholder";
 
 RoutineExercise = React.createClass({
 	
 	render() {
-		var series_btn , repetitions_btn , rest_btn;
+		var series_btn , repetitions_btn , rest_btn, circuit_exercises;
 		
 		if(this.props.exercise.series > 1){
 			series_btn =<button type="button" title="Cantidad de Series" className="btn btn-info"  data-toggle="modal" data-target={'#formFor'+this.props.exercise._id} aria-expanded="false" aria-controls={'formFor'+this.props.i}>
@@ -34,6 +37,19 @@ RoutineExercise = React.createClass({
 								<span className="glyphicon glyphicon-hourglass"></span>
 								<span className="">{this.props.exercise.duration}´´</span>
 							</button>;
+		}else if(this.props.exercise.type === 'staggered'){
+			repetitions_btn = <button type="button"  title="Repeticiones" className="btn btn-success"  title="Repeticiones" data-toggle="modal" data-target={'#formFor'+this.props.exercise._id} aria-expanded="false" aria-controls={'formFor'+this.props.exercise._id}>
+								<span className="glyphicon glyphicon-refresh"></span>
+								{this.props.exercise.series.map(function(serie) {
+									return <span className="">{' ' + serie.repetitions}</span>
+								})}				
+							</button>
+		}else if(this.props.exercise.type === 'circuit'){
+			circuit_exercises = <ul>
+									{this.props.exercise.series.map(function(serie) {
+										return <li><span className="">{' ' + serie.name}</span></li>
+									})}
+								</ul>	
 		}
 
 		if(this.props.exercise.rest){
@@ -64,6 +80,7 @@ RoutineExercise = React.createClass({
 							</div>
 			            </div>
 			        </div>
+			        {circuit_exercises}
 			        <div className="modal fade" id={'formFor'+this.props.exercise._id} tabindex="-1" role="dialog" aria-labelledby={'formFor'+this.props.exercise._id+'label'}>
 					 	<div className="modal-dialog" role="document">
 					   		<div className="modal-content">
