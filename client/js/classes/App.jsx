@@ -51,6 +51,9 @@ App = React.createClass({
       open:false
     }
   },
+  closeNavigationMenu(){
+    this.setState({open:false});
+  },
   render() {
     var user_tpl1, user_tpl2, user_tpl3, username;
     if(this.data.currentUser){
@@ -153,6 +156,7 @@ App = React.createClass({
                         linkButton
                         href='/clients' 
                         label="Alumnos"
+                        onTouchTap={this.closeNavigationMenu}
                         insetChildren={true}
                         leftIcon={<SvgIcons.ActionViewList />} />,
                       <MenuItem 
@@ -160,6 +164,7 @@ App = React.createClass({
                         linkButton
                         href='/clients/add' 
                         label="Nuevo"
+                        onTouchTap={this.closeNavigationMenu}
                         insetChildren={true}
                         leftIcon={<SvgIcons.ContentAddCircle />} />,
                       <MenuItem 
@@ -167,6 +172,7 @@ App = React.createClass({
                         linkButton
                         href='/clients' 
                         label="Alumnos"
+                        onTouchTap={this.closeNavigationMenu}
                         insetChildren={true}
                         leftIcon={<SvgIcons.ActionSupervisorAccount />} />
                     ]}
@@ -190,6 +196,7 @@ App = React.createClass({
                         href='/exercises' 
                         label="Ejercicios"
                         insetChildren={true}
+                        onTouchTap={this.closeNavigationMenu}
                         leftIcon={<SvgIcons.ActionViewList />} />,
                       <MenuItem 
                         primaryText="Nuevo" 
@@ -197,6 +204,7 @@ App = React.createClass({
                         href='/exercises/add' 
                         label="Nuevo"
                         insetChildren={true}
+                        onTouchTap={this.closeNavigationMenu}
                         leftIcon={<SvgIcons.ContentAddCircle />} />
                     ]}
                   />
@@ -213,6 +221,7 @@ App = React.createClass({
                         href='/routines' 
                         label="Rutinas"
                         insetChildren={true}
+                        onTouchTap={this.closeNavigationMenu}
                         leftIcon={<SvgIcons.ActionViewList />} />,
                       <MenuItem 
                         primaryText="Nueva" 
@@ -220,6 +229,7 @@ App = React.createClass({
                         href='/routines/add' 
                         label="Nueva"
                         insetChildren={true}
+                        onTouchTap={this.closeNavigationMenu}
                         leftIcon={<SvgIcons.ContentAddCircle />} />
                     ]}
                   />

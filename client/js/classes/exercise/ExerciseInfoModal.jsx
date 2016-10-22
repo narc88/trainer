@@ -154,22 +154,17 @@ ExerciseInfoModal = React.createClass({
 	    let exerciseTypeTpl = '';
 	    let exercise = this.props.exercise;
 
-	    if (!this.state.changingType) {
+	    if (this.state.changingType) {
 	    	exerciseTypeTpl = 	<SelectField value={this.state.data.type} onChange={this.onTypeChange}>
 						          	{EXERCISE_TYPES.map(function(value) {
 									 	return <MenuItem key={value.value} value={value.value} primaryText={value.label} />
 									})}
 						        </SelectField>;
 	    }else{
-	    	exerciseTypeTpl = 	<div
-						          onTouchTap={this.handleRequestDelete}
-						        >
-						          	{ 	_.find(EXERCISE_TYPES, function(obj) {
-									    	return obj.value === exercise.type;
-										}).label
-						      		}
-						      		<span> (Change Type) </span>
-						        </div>;
+	    	let exercise_type = _.find(EXERCISE_TYPES, function(obj) {
+					    	return obj.value === exercise.type;
+						}) || {};
+	    	exerciseTypeTpl = <RaisedButton onTouchTap={this.handleRequestDelete} label={exercise_type.label + '(Change Type)'} primary={true} />;
 	    }
 
 	    if(this.state.data.type !== 'circuit'){

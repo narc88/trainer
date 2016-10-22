@@ -1,11 +1,21 @@
+function checkLoggedIn (ctx, redirect) {  
+  if (!Meteor.userId()) {
+    redirect('/')
+  }
+}
 
+function redirectIfLoggedIn (ctx, redirect) {  
+  if (Meteor.userId()) {
+    redirect('/dashboard')
+  }
+}
 
 FlowRouter.route('/', {
   
   //triggersEnter: [function(context, redirect) {
   //  redirect('/some-other-path');
   //}],
-  
+  triggersEnter: [checkLoggedIn],
   action: function() {
     const containerElement = document.getElementById("render-app");
     React.render(<App/>, containerElement);
@@ -19,6 +29,7 @@ FlowRouter.route('/', {
 });
 
 FlowRouter.route('/sessions', {
+  triggersEnter: [checkLoggedIn],
   action: function() {
     const containerElement = document.getElementById("render-target");
     React.render(<SessionList/>, containerElement);
@@ -27,6 +38,7 @@ FlowRouter.route('/sessions', {
 
 
 FlowRouter.route('/sessions/:id', {
+  triggersEnter: [checkLoggedIn],
   action: function(params) {
     const containerElement = document.getElementById("render-target");
     React.render(<Session id={params.id}/>, containerElement);
@@ -34,6 +46,7 @@ FlowRouter.route('/sessions/:id', {
 });
 
 FlowRouter.route('/sessions/actual', {
+  triggersEnter: [checkLoggedIn],
   action: function() {
     const containerElement = document.getElementById("render-target");
     React.render(<Session/>, containerElement);
@@ -42,6 +55,7 @@ FlowRouter.route('/sessions/actual', {
 
 
 FlowRouter.route('/sessions/complete', {
+  triggersEnter: [checkLoggedIn],
   
   action: function() {
     const containerElement = document.getElementById("render-target");
@@ -51,6 +65,7 @@ FlowRouter.route('/sessions/complete', {
 
 
 FlowRouter.route('/profile', {
+  triggersEnter: [checkLoggedIn],
   
   action: function() {
     const containerElement = document.getElementById("render-target");
@@ -70,6 +85,7 @@ FlowRouter.route('/calendar', {
 
 
 FlowRouter.route('/sessions/add', {
+  triggersEnter: [checkLoggedIn],
   action: function() {
     Meteor.call('addRoutine', 'abracadabra' ,function (error, result) {
       if (error) {
@@ -82,6 +98,7 @@ FlowRouter.route('/sessions/add', {
 });
 
 FlowRouter.route('/playSession/:id', {
+  triggersEnter: [checkLoggedIn],
   action: function(params) {
     const containerElement = document.getElementById("render-target");
     React.render(<PlaySession id={params.id}/>, containerElement);
@@ -90,6 +107,7 @@ FlowRouter.route('/playSession/:id', {
 
 
 FlowRouter.route('/sessions', {
+  triggersEnter: [checkLoggedIn],
   
   action: function() {
     const containerElement = document.getElementById("render-target");
@@ -98,6 +116,7 @@ FlowRouter.route('/sessions', {
 });
 
 FlowRouter.route('/sessions/:id', {
+  triggersEnter: [checkLoggedIn],
   
   action: function(params) {
     const containerElement = document.getElementById("render-target");
@@ -108,6 +127,7 @@ FlowRouter.route('/sessions/:id', {
 
 /*Appointments*/
 FlowRouter.route('/turns', {
+  triggersEnter: [checkLoggedIn],
   
   action: function() {
     const containerElement = document.getElementById("render-target");
@@ -117,6 +137,7 @@ FlowRouter.route('/turns', {
 
 
 FlowRouter.route('/turns/:id', {
+  triggersEnter: [checkLoggedIn],
   
   action: function(params) {
     const containerElement = document.getElementById("render-target");
@@ -127,6 +148,7 @@ FlowRouter.route('/turns/:id', {
 
 /*Gyms*/
 FlowRouter.route('/gyms', {
+  triggersEnter: [checkLoggedIn],
   
   action: function() {
     const containerElement = document.getElementById("render-target");
@@ -136,6 +158,7 @@ FlowRouter.route('/gyms', {
 
 
 FlowRouter.route('/gyms/add', {
+  triggersEnter: [checkLoggedIn],
   
   action: function(params) {
     const containerElement = document.getElementById("render-target");
@@ -146,6 +169,7 @@ FlowRouter.route('/gyms/add', {
 
 /*Gyms*/
 FlowRouter.route('/clients', {
+  triggersEnter: [checkLoggedIn],
   
   action: function() {
     const containerElement = document.getElementById("render-target");
@@ -155,6 +179,7 @@ FlowRouter.route('/clients', {
 
 
 FlowRouter.route('/clients/add', {
+  triggersEnter: [checkLoggedIn],
   
   action: function(params) {
     const containerElement = document.getElementById("render-target");
@@ -166,6 +191,7 @@ FlowRouter.route('/clients/add', {
 /*Exercises*/
 
 FlowRouter.route('/exercises/add', {
+  triggersEnter: [checkLoggedIn],
   
   action: function(params) {
     const containerElement = document.getElementById("render-target");
@@ -174,6 +200,7 @@ FlowRouter.route('/exercises/add', {
 });
 
 FlowRouter.route('/exercises/:id', {
+  triggersEnter: [checkLoggedIn],
   
   action: function(params) {
     const containerElement = document.getElementById("render-target");
@@ -183,6 +210,7 @@ FlowRouter.route('/exercises/:id', {
 
 
 FlowRouter.route('/exercises', {
+  triggersEnter: [checkLoggedIn],
   action: function() {
     const containerElement = document.getElementById("render-target");
     React.render(<ExerciseList/>, containerElement);
@@ -200,6 +228,7 @@ FlowRouter.route('/images/add/:elementType/:elementId', {
 /*Rutinas*/
 
 FlowRouter.route('/routines', {
+  triggersEnter: [checkLoggedIn],
   action: function(params) {
     const containerElement = document.getElementById("render-target");
     React.render(<RoutineList/>, containerElement);
@@ -208,6 +237,7 @@ FlowRouter.route('/routines', {
 
 
 FlowRouter.route('/routines/add', {
+  triggersEnter: [checkLoggedIn],
   action: function(params) {
     const containerElement = document.getElementById("render-target");
     React.render(<CreateRoutine/>, containerElement);
@@ -217,6 +247,7 @@ FlowRouter.route('/routines/add', {
 
 /*Usuarios*/
 FlowRouter.route('/login', {
+  triggersEnter: [checkLoggedIn],
   action: function(params) {
     const containerElement = document.getElementById("render-target");
     React.render(<Login/>, containerElement);
@@ -224,6 +255,7 @@ FlowRouter.route('/login', {
 });
 
 FlowRouter.route('/register', {
+  triggersEnter: [checkLoggedIn],
   action: function(params) {
     const containerElement = document.getElementById("render-target");
     React.render(<Register/>, containerElement);
@@ -231,6 +263,7 @@ FlowRouter.route('/register', {
 });
 
 FlowRouter.route('/users', {
+  triggersEnter: [checkLoggedIn],
   action: function(params) {
     const containerElement = document.getElementById("render-target");
     React.render(<UserList/>, containerElement);
@@ -240,6 +273,7 @@ FlowRouter.route('/users', {
 
 FlowRouter.route('/users/:id', {
   
+  triggersEnter: [checkLoggedIn],
   action: function(params) {
     const containerElement = document.getElementById("render-target");
     React.render(<UserProfile id={params.id}/>, containerElement);
@@ -247,6 +281,8 @@ FlowRouter.route('/users/:id', {
 });
 
 FlowRouter.route('/logout', {
+  
+  triggersEnter: [checkLoggedIn],
   name: 'logout',
   action: function() {
     Meteor.logout(function(){
