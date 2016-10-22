@@ -1,6 +1,12 @@
 
 var {SvgIcons} = MUI.Libs;
 
+var {
+    Dialog,
+    ListItem,
+    List
+    } = MUI;
+
 
 var placeholder = document.createElement("li");
 placeholder.className = "placeholder";
@@ -46,11 +52,16 @@ RoutineExercise = React.createClass({
 							</button>
 		}else if(this.props.exercise.type === 'circuit'){
 			circuit_exercises = <div className="col-xs-12 col-sm-12 col-md-12">
-									<ul>
-										{this.props.exercise.series.map(function(serie) {
-											return <li><span className="">{' ' + serie.name}</span></li>
-										})}
-									</ul>
+									<List>
+								      	{this.props.exercise.series.map(function(object, i){
+								      		return <ListItem
+												        leftAvatar={<Avatar src='http://res.cloudinary.com/db6uq4jy9/image/upload/v1466101331/c2w7b99g3o21chn5bmxb.jpg' />}
+												        primaryText={serie.name}
+												        key={i}
+												    >
+												    </ListItem>
+							        	})}
+								    </List>
 								</div>;	
 		}
 

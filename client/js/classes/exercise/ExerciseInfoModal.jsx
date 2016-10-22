@@ -77,7 +77,8 @@ ExerciseInfoModal = React.createClass({
   	},
   	handleRequestDelete(){
   		var data = this.state.data;
-  		data.type = '';
+  		data.type = this.props.exercise.type;
+  		data.totalSeries = this.props.exercise.totalSeries;
   		this.setState({
   			data: data,
   			changingType : true
@@ -164,7 +165,7 @@ ExerciseInfoModal = React.createClass({
 	    	let exercise_type = _.find(EXERCISE_TYPES, function(obj) {
 					    	return obj.value === exercise.type;
 						}) || {};
-	    	exerciseTypeTpl = <RaisedButton onTouchTap={this.handleRequestDelete} label={exercise_type.label + '(Change Type)'} primary={true} />;
+	    	exerciseTypeTpl = <RaisedButton onTouchTap={this.handleRequestDelete} label={exercise_type.label + ' (Cambiar tipo)'} primary={true} />;
 	    }
 
 	    if(this.state.data.type !== 'circuit'){
