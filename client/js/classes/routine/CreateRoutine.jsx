@@ -1,4 +1,10 @@
 
+var {
+    Paper
+    } = MUI;
+
+var {SvgIcons} = MUI.Libs;
+
 var placeholder = document.createElement("li");
 placeholder.className = "placeholder";
 placeholder.id = "selectablePlaceholder";
@@ -108,7 +114,8 @@ CreateRoutine = React.createClass({
 			                {this.state.routine_exercises.map(function(object, i){
 					            return <RoutineExercise key={i} i={i} updateExercise={updateExercise} dragEnd={dragEnd} dragStart={dragStart} exercise={object}/>
 					        })}
-				        </ul> 
+				        </ul>
+				        <Paper children={<SvgIcons.ContentSave />} zDepth={4} circle={true} />
 		            </div>
 		            <ExerciseInfoModal exercise={this.state.exercise} handleSubmit={this.handleSubmit} toggleSelectingExercise={this.toggleSelectingExercise} addingExercise={this.state.addingExercise}/>;
 		            <div className="exercise-list-scrollable" style={style}>

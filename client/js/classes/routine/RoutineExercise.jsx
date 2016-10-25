@@ -4,7 +4,8 @@ var {SvgIcons} = MUI.Libs;
 var {
     Dialog,
     ListItem,
-    List
+    List,
+    Avatar
     } = MUI;
 
 
