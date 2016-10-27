@@ -75,7 +75,10 @@ ExerciseForm = React.createClass({
 	  	event.preventDefault();
 	  	let exercise = this.getFormData();
 	  	if(this.isValid()){
-	  		Meteor.call('addExercise', exercise, function (error, result) {});
+	  		Meteor.call('addExercise', exercise, function (error, result) {
+
+	  		 	FlowRouter.redirect('/exercises');
+	  		});
 	  	}
   	},
   	changeType(){

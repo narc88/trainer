@@ -175,7 +175,7 @@ ExerciseInfoModal = React.createClass({
 					          step={1}
 					          description={'Series: '+(this.state.data.totalSeries || this.props.exercise.totalSeries)}
 					          defaultValue={parseInt(this.props.exercise.totalSeries)}
-					          value={this.state.data.totalSeries}
+					          value={parseInt(this.state.data.totalSeries)}
 					          onChange={this.handleSeriesChange}
 					        />;
 	    }
@@ -187,7 +187,7 @@ ExerciseInfoModal = React.createClass({
 						          step={1}
 						          defaultValue={parseInt(this.props.exercise.repetitions)}
 						          description={'Repeticiones : '+(this.state.data.repetitions || this.props.exercise.repetitions)}
-						          value={this.state.data.repetitions}
+						          value={parseInt(this.state.data.repetitions)}
 						          onChange={this.handleRepetitionsChange}
 						        />;
 	    }

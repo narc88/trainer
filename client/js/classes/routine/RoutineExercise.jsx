@@ -47,8 +47,8 @@ RoutineExercise = React.createClass({
 		}else if(this.props.exercise.type === 'staggered'){
 			repetitions_btn = <button type="button"  title="Repeticiones" className="btn btn-success"  title="Repeticiones" data-toggle="modal" data-target={'#formFor'+this.props.exercise._id} aria-expanded="false" aria-controls={'formFor'+this.props.exercise._id}>
 								<span className="glyphicon glyphicon-refresh"></span>
-								{this.props.exercise.series.map(function(serie) {
-									return <span className="">{' ' + serie.repetitions}</span>
+								{this.props.exercise.series.map(function(serie, i) {
+									return <span key={i} className="">{' ' + serie.repetitions}</span>
 								})}				
 							</button>
 		}else if(this.props.exercise.type === 'circuit'){

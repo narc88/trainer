@@ -1,6 +1,6 @@
 
 var {
-    Paper
+    FloatingActionButton
     } = MUI;
 
 var {SvgIcons} = MUI.Libs;
@@ -80,7 +80,11 @@ CreateRoutine = React.createClass({
 	    this.setState({routine_exercises: routine_exercises});
   	},
   	isRoutineValid(){
-  		return (this.state.routine_exercises.length > 3);
+  		let routineIsNotValid = !!(this.state.routine_exercises.length > 3);
+  		this.setState({
+  						routineIsNotValid: routineIsNotValid
+  					});
+  		return routineIsNotValid;
   	},
   	submitRoutine(){
 	  	if(this.isRoutineValid()){
@@ -99,6 +103,7 @@ CreateRoutine = React.createClass({
   						addingExercise:false,
   						exercise:{}
   					});
+  		this.isRoutineValid();
   	},
 	render() {
 		var viewport_height = (document.documentElement.clientHeight/2)+'px';
@@ -107,7 +112,15 @@ CreateRoutine = React.createClass({
 		var dragStart = this.dragStart;
 		var updateExercise = this.updateExercise;
 		var select_list = '';
-		
+		const actionStyle = {
+		    margin: 0,
+		    bottom: 'auto',
+		    right: '45%',
+		    top: 20,
+		    left: 'auto',
+		    position: 'fixed',
+		    zIndex:9999
+		};
 	    return 	<div>
 		            <div className="exercise-list-scrollable" style={style}>
 		                <ul className="list-group" onDragOver={this.dragOver}>
@@ -115,7 +128,9 @@ CreateRoutine = React.createClass({
 					            return <RoutineExercise key={i} i={i} updateExercise={updateExercise} dragEnd={dragEnd} dragStart={dragStart} exercise={object}/>
 					        })}
 				        </ul>
-				        <Paper children={<SvgIcons.ContentSave />} zDepth={4} circle={true} />
+				        <FloatingActionButton style={actionStyle} disabled={this.state.routineIsNotValid} onTouchTap={this.submitRoutine}>
+					      	<SvgIcons.ContentSave />
+					    </FloatingActionButton>
 		            </div>
 		            <ExerciseInfoModal exercise={this.state.exercise} handleSubmit={this.handleSubmit} toggleSelectingExercise={this.toggleSelectingExercise} addingExercise={this.state.addingExercise}/>;
 		            <div className="exercise-list-scrollable" style={style}>

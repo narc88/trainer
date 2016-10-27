@@ -54,7 +54,10 @@ CircuitBuilder = React.createClass({
   			exercises.push(exercise);
   		}
 
-  		this.setState({'selected_exercises':exercises})
+  		this.setState({
+  			'selected_exercises':exercises,
+  			'selectionIsValid': this.validSelection()
+  		})
   		
   	},
   	validSelection(){
@@ -94,7 +97,7 @@ CircuitBuilder = React.createClass({
 						      />,
 						      <FlatButton
 						        label="Listo"
-						        disabled = {this.validSelection()}
+						        disabled = {this.selectionIsValid}
 						        secondary={true}
 						        keyboardFocused={true}
 						        onTouchTap={this.submitSelection}
