@@ -21,6 +21,20 @@ var EXERCISE_TYPES = [
 	{'value':'circuit', 'label':'Circuito'}
 ]
 
+
+var {
+    Dialog,
+    RaisedButton,
+    FlatButton,
+    Slider,
+    Chip,
+    MenuItem,
+    SelectField
+    } = MUI;
+
+var {SvgIcons} = MUI.Libs;
+
+
 ExerciseForm = React.createClass({
 	getInitialState() {
 		return {
@@ -76,7 +90,6 @@ ExerciseForm = React.createClass({
 	  	let exercise = this.getFormData();
 	  	if(this.isValid()){
 	  		Meteor.call('addExercise', exercise, function (error, result) {
-
 	  		 	FlowRouter.redirect('/exercises');
 	  		});
 	  	}
@@ -92,50 +105,165 @@ ExerciseForm = React.createClass({
   		var duration = this.refs.duration? this.refs.duration.value : '';
   		var cant_exercises =this.refs.cant_exercises? this.refs.cant_exercises.value : '';
   		var series =this.refs.series? this.refs.series.value : '';
-		return {
-				//Categoría, duracion, series... Se llenan cuando armas la rutina.
-			  	name: this.refs.name.value,
-			  	tags: this.refs.tags.value,
-			  	description: this.refs.description.value,
-				tips: this.refs.tips.value,
-				totalSeries: series,
-				series: [],
-				type: this.refs.type.value,
-				explanation: this.refs.explanation.value,
-				repetitions: repetitions,
-				duration: duration,
-				rest:this.refs.rest.value,
-				cant_exercises: cant_exercises
-			};
+  		let exercise = {
+			//Categoría, duracion, series... Se llenan cuando armas la rutina.
+		  	name: this.refs.name.value,
+		  	tags: this.refs.tags.value,
+		  	description: this.refs.description.value,
+			tips: this.refs.tips.value,
+			totalSeries: series,
+			series: [],
+			type: this.refs.type.value,
+			explanation: this.refs.explanation.value,
+			repetitions: repetitions,
+			duration: duration,
+			rest:this.refs.rest.value,
+			cant_exercises: cant_exercises
+		}
+  		this.setState({data : exercise})
+		return exercise;
+  	},
+  	onTypeChange(data, index, value){
+  		var data = this.state.data;
+  		data.type = value;
+  		this.updateSeries(data);
+  	},
+  	updateSeries( data ){
+  		if(data.type === 'staggered'){
+  			data.totalSeries = this.state.data.totalSeries || this.refs.series;
+	    	let series = [];
+  			for (var i = 0; i < data.totalSeries; i++) {
+  				series[i] = {
+					    		repetitions : 0
+					    	}
+  			}
+
+  			data.series = series;
+  		}
+  		this.setState({
+  			data: data
+  		});
+  	},
+	submitExercises(exercises){
+		var new_data = this.state.data;
+  		new_data.series = exercises;
+    	this.setState({data: new_data});
+	},
+	handleDurationChange(event, data){
+  		var new_data = this.state.data;
+  		new_data.duration = data;
+    	this.setState({data: new_data});
+  	},
+  	handleRestChange(event, data){
+  		var new_data = this.state.data;
+  		new_data.rest = data;
+    	this.setState({data: new_data});
+  	},
+  	handleRepetitionsChange(event, data){
+  		var new_data = this.state.data;
+  		new_data.repetitions = data;
+    	this.setState({data: new_data});
+  	},
+  	handleSeriesChange(event, data){
+  		var new_data = this.state.data;
+  		new_data.totalSeries = data;
+    	this.updateSeries( new_data );
+  	},
+  	handleSerieDataChange(data, index){
+  		var new_data = this.state.data;
+  		new_data.series[index].repetitions = data;
+    	this.setState({data: new_data});
+  	},
+  	handleRequestChange(){
+  		var data = this.state.data;
+  		data.type = EXERCISE_TYPES[0];
+  		data.totalSeries = this.refs.series;
+  		this.setState({
+  			data: data,
+  			changingType : true
+  		});
   	},
   	render() {
+  		let seriesSlider = '',repetitionsSlider ='',durationSlider='',restSlider='', seriesDetails=[];
   		var repetitions_container = '';
   		var series_container = '';
-  		if(this.state.data.type){
-	  		switch(this.state.data.type){
-	  			case 'repetitions':
-	  				repetitions_container = this.renderNumberInput('repetitions', 'Repeticiones');
-	  				series_container = this.renderNumberInput('series', 'Series');
-	  				break;
-	  			case 'timed':
-	  				repetitions_container = this.renderNumberInput('duration', 'Duración (segs)');
-	  				series_container = this.renderNumberInput('series', 'Series');
-	  				break;
-	  			case 'circuit':
-	  				repetitions_container = this.renderNumberInput('cant_exercises', 'Cantidad de ejercicios');
-	  				break;
-	  			case 'staggered':
-	  				repetitions_container = this.renderTextInput('staggered', 'Cantidad de Repeticiones por serie');
-	  				break;
-	  		}
-	  	}
+	  	let exerciseTypeTpl = '';
+
+	    if (this.state.changingType) {
+	    	exerciseTypeTpl = 	<SelectField value={this.state.data.type} onChange={this.onTypeChange}>
+						          	{EXERCISE_TYPES.map(function(value) {
+									 	return <MenuItem key={value.value} value={value.value} primaryText={value.label} />
+									})}
+						        </SelectField>;
+	    }else{
+	    	let exercise_type = _.find(EXERCISE_TYPES, function(obj) {
+					    	return obj.value === EXERCISE_TYPES[0];
+						}) || {};
+	    	exerciseTypeTpl = <RaisedButton onTouchTap={this.handleRequestChange} label={exercise_type.label + ' (Cambiar tipo)'} primary={true} />;
+	    }
+
+	    if(this.state.data.type !== 'circuit'){
+	    	seriesSlider = 	<Slider
+					          min={1}
+					          max={10}
+					          step={1}
+					          description={'Series: '+(this.state.data.totalSeries || this.refs.series)}
+					          defaultValue={parseInt(0)}
+					          value={parseInt(this.state.data.totalSeries)}
+					          onChange={this.handleSeriesChange}
+					        />;
+	    }
+
+	    if(this.state.data.type === 'repetitions'){
+	    	repetitionsSlider = <Slider
+						          min={1}
+						          max={30}
+						          step={1}
+						          defaultValue={parseInt(0)}
+						          description={'Repeticiones : '+(this.state.data.repetitions || this.refs.repetitions)}
+						          value={parseInt(this.state.data.repetitions)}
+						          onChange={this.handleRepetitionsChange}
+						        />;
+	    }
+
+	    if(this.state.data.type === 'timed'){
+	    	durationSlider = 	<Slider
+						          min={1}
+						          max={120}
+						          step={5}
+						          defaultValue={parseInt(0)}
+						          description={'Duracion de cada serie (Segs): '+(this.state.data.duration || this.refs.duration)}
+						          value={this.state.data.duration}
+						          onChange={this.handleDurationChange}
+						        />;
+	    }
+
+	    if(this.state.data.type === 'staggered' && this.state.data.totalSeries > 0){
+	    	seriesDetails = <SeriesBuilder handleSerieDataChange={this.handleSerieDataChange} series={this.state.data.series} totalSeries={this.state.data.totalSeries}/>
+		}
+
+		if(this.state.data.type === 'circuit' && this.state.data.totalSeries > 0){
+	    	seriesDetails = <CircuitBuilder series={this.state.data.series} submitExercises={this.submitExercises} totalSeries={this.state.data.totalSeries}/>
+		}
+	   	
+		restSlider =	<Slider
+				          min={1}
+				          max={300}
+				          step={10}
+				          defaultValue={parseInt(0)}
+				          description={'Descanso entre series (Segs): '+(this.state.data.rest || this.props.exercise.rest)}
+				          value={this.state.data.rest}
+				          onChange={this.handleRestChange}
+				        />;
 		return <div className="form-horizontal">
 					<form onSubmit={this.handleSubmit} ref="exerciseForm">
 						{this.renderTextInput('name', 'Nombre')}
-						{this.renderSelect('type', 'Tipo', EXERCISE_TYPES)}
-						{series_container}
-						{repetitions_container}
-						{this.renderNumberInput('rest', 'Descanso (Segundos)')}
+						{exerciseTypeTpl}
+						{seriesSlider}
+						{seriesDetails}
+						{repetitionsSlider}
+						{durationSlider}
+						{restSlider}
 						{this.renderTextarea('description', 'Descripción')}
 						{this.renderTextarea('explanation', 'Explicación')}
 						{this.renderTagInput('tags', 'Categorías')}
